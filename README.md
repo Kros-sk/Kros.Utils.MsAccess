@@ -16,6 +16,10 @@ For configuration, general information and examples [see the documentation](http
 
 Kros.Libs is available from __Nuget__ [__Kros.Utils.MsAccess__](https://www.nuget.org/packages/Kros.Utils.MsAccess/)
 
+## Contributing Guide
+
+To contribute with new topics/information or make changes, see [contributing](https://github.com/Kros-sk/Kros.Utils.MsAccess/blob/master/CONTRIBUTING.md) for instructions and guidelines.
+
 ## This topic contains following sections
 
 __Kros.Utils.MsAccess__
