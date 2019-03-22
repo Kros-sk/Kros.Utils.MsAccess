@@ -7,11 +7,11 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/README.md</projectUrl>
+    <projectUrl>https://github.com/Kros-sk/Kros.Utils.MsAccess/blob/master/README.md</projectUrl>
     <iconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>https://github.com/Kros-sk/Kros.Libs/releases</releaseNotes>
+    <releaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</releaseNotes>
     <copyright>Copyright © KROS a.s.</copyright>
     <tags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</tags>
     <dependencies>
