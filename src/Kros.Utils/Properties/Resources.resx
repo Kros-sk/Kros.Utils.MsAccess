@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BulkInsertColumnDoesNotExistInDestination" xml:space="preserve">
+    <value>Destination table "{0}" does not have column "{1}".</value>
+  </data>
+  <data name="BulkInsertInvalidDestinationColumnMapping" xml:space="preserve">
+    <value>Invalid destination column mapping at index {0}.</value>
+  </data>
+  <data name="CannotChangeIndexNameWhenIndexBelongsToTable" xml:space="preserve">
+    <value>It is not possible to change index name if it already belongs to some table. The index "{0}" belong to table "{1}".</value>
+  </data>
+  <data name="Check_Equal" xml:space="preserve">
+    <value>Argument value must be {0}. Current value is {1}.</value>
+  </data>
+  <data name="Check_GreaterOrEqualThan" xml:space="preserve">
+    <value>Argument value must be greater or equal than {0}. Current value is {1}.</value>
+  </data>
+  <data name="Check_GreaterThan" xml:space="preserve">
+    <value>Argument value must be greater than {0}. Current value is {1}.</value>
+  </data>
+  <data name="Check_IsInListDefaultMessage" xml:space="preserve">
+    <value>The value "{0}" is invalid. It must be one of the allowed values: {1}</value>
+  </data>
+  <data name="Check_IsNotInListDefaultMessage" xml:space="preserve">
+    <value>The value "{0}" is invalid. It cannot be one of disallowed values: {1}</value>
+  </data>
+  <data name="Check_IsNotOfType" xml:space="preserve">
+    <value>Argument cannot be of type {0}.</value>
+  </data>
+  <data name="Check_IsOfType" xml:space="preserve">
+    <value>Argument is not of required type {0}. Argument's type is {1}.</value>
+  </data>
+  <data name="Check_LessOrEqualThan" xml:space="preserve">
+    <value>Argument value must be less or equal than {0}. Current value is {1}.</value>
+  </data>
+  <data name="Check_LessThan" xml:space="preserve">
+    <value>Argument value must be less than {0}. Current value is {1}.</value>
+  </data>
+  <data name="Check_NotEmptyGuid" xml:space="preserve">
+    <value>Empty GUID is not allowed.</value>
+  </data>
+  <data name="Check_NotEqual" xml:space="preserve">
+    <value>Argument value {0} is not allowed.</value>
+  </data>
+  <data name="Check_NotNull" xml:space="preserve">
+    <value>The value cannot be null.</value>
+  </data>
+  <data name="Check_StringNotNullOrEmpty" xml:space="preserve">
+    <value>The value cannot be null, neither empty string.</value>
+  </data>
+  <data name="Check_StringNotNullOrWhiteSpace" xml:space="preserve">
+    <value>The value cannot be null, neither empty string, nor string containing only whitespace characters.</value>
+  </data>
+  <data name="ColumnBelongsToAnotherIndex" xml:space="preserve">
+    <value>Column "{0}" cannot be added to index "{1}" because it already belongs to index "{2}".</value>
+  </data>
+  <data name="ColumnBelongsToAnotherTable" xml:space="preserve">
+    <value>Column "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
+  </data>
+  <data name="ColumnMissingInBulkInsertDestinationTable" xml:space="preserve">
+    <value>Destination table "{0}" does not have column "{1}".</value>
+  </data>
+  <data name="DestinationColumnMappingNotSet" xml:space="preserve">
+    <value>The destination column name nor its ordinal is set.</value>
+  </data>
+  <data name="FactoryNotRegisteredForClient" xml:space="preserve">
+    <value>"{0}" for ADO client "{1}" is not registered.</value>
+  </data>
+  <data name="FactoryNotRegisteredForConnection" xml:space="preserve">
+    <value>"{0}" for connection type "{1}" is not registered.</value>
+  </data>
+  <data name="ForeignKeyBelongsToAnotherTable" xml:space="preserve">
+    <value>Foreign key "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
+  </data>
+  <data name="IndexBelongsToAnotherTable" xml:space="preserve">
+    <value>Index "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
+  </data>
+  <data name="InvalidBulkInsertColumnMappingOrdinal" xml:space="preserve">
+    <value>Column ordinal can not be negative.</value>
+  </data>
+  <data name="InvalidIndexInDestinationColumnMapping" xml:space="preserve">
+    <value>Destination table "{0}" does not contain column at index {1}.</value>
+  </data>
+  <data name="InvalidNameInDestinationColumnMapping" xml:space="preserve">
+    <value>Destination table "{0}" does not contain column "{1}".</value>
+  </data>
+  <data name="MissingPropertyInType" xml:space="preserve">
+    <value>Type "{0}" does not have property "{1}" which is in column names list.</value>
+  </data>
+  <data name="PathContainsInvalidCharacters" xml:space="preserve">
+    <value>One of the path parts contains invalid characters. Erroneous part is at index {0}: "{1}"</value>
+  </data>
+  <data name="SqlServerNoInitialCatalog" xml:space="preserve">
+    <value>For loading the database schema, the database name (Initial Catalog) must be specified in the connection.</value>
+  </data>
+  <data name="SqlServerUnsupportedConnectionType" xml:space="preserve">
+    <value>Unsupported connection type. The connection must be of type SqlConnection.</value>
+  </data>
+  <data name="TableBelongsToAnotherDatabase" xml:space="preserve">
+    <value>Table "{0}" cannot be added to database "{1}" because it already belongs to database "{2}".</value>
+  </data>
+  <data name="UnsupportedConnectionType" xml:space="preserve">
+    <value>Unsupported database connection type: {0}</value>
+  </data>
+</root>

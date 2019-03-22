@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/README.md</projectUrl>
+    <iconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>https://github.com/Kros-sk/Kros.Libs/releases</releaseNotes>
+    <copyright>Copyright © KROS a.s.</copyright>
+    <tags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</tags>
+    <dependencies>
+      <dependency id="Kros.Utils" version="1.7.2" />
+    </dependencies>
+  </metadata>
+</package>

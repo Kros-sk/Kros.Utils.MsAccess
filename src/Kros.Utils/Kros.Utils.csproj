@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;net46</TargetFrameworks>
+    <Company>KROS a.s.</Company>
+    <Title>Kros.Utils</Title>
+    <Version>1.9.0</Version>
+    <Authors>KROS a.s.</Authors>
+    <Description>General utilities and helpers.</Description>
+    <Copyright>Copyright © KROS a.s.</Copyright>
+    <SignAssembly>false</SignAssembly>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>Kros</RootNamespace>
+    <TargetGroup Condition="('$(TargetFramework)' == 'netcoreapp2.1') Or ('$(TargetFramework)' == 'netstandard2.0')">netcoreapp</TargetGroup>
+    <DefineConstants Condition="'$(TargetGroup)' == 'netcoreapp'">$(DefineConstants);netcoreapp</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>$(OutDir)Kros.Utils.xml</DocumentationFile>
+    <PackageProjectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/README.md</PackageProjectUrl>
+    <PackageTags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation; BulkUpdate;
+    Bulk Insert; Bulk Update;</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</PackageIconUrl>
+    <PackageReleaseNotes>https://github.com/Kros-sk/Kros.Libs/releases</PackageReleaseNotes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />    
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Net.Http.Headers">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />      
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <PackageReference Include="Microsoft.Net.Http.Headers">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>  
+  <ItemGroup>
+    <None Remove="Kros.Utils.xml" />
+    <None Remove="Resources\SqlIdGeneratorStoredProcedureScript.sql" />
+    <None Remove="Resources\SqlIdGeneratorTableScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SqlIdGeneratorStoredProcedureScript.sql" />
+    <EmbeddedResource Include="Resources\SqlIdGeneratorTableScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

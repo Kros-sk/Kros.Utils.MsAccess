@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5735B2C0-DE20-41FE-8EA7-8B2ED910B9FA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kros.MsAccess</RootNamespace>
+    <AssemblyName>Kros.Utils.MsAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\Kros.Utils.MsAccess.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\Kros.Utils.MsAccess.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\BulkActions\MsAccess\CsvFileWriter.cs" />
+    <Compile Include="Data\BulkActions\MsAccess\Enums.cs" />
+    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkInsert.cs" />
+    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkActionFactory.cs" />
+    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkUpdate.cs" />
+    <Compile Include="Data\Extensions.cs" />
+    <Compile Include="Data\MsAccessDataHelper.cs" />
+    <Compile Include="Data\MsAccessIdGenerator.cs" />
+    <Compile Include="Data\MsAccessIdGeneratorFactory.cs" />
+    <Compile Include="Data\MsAccessErrorCode.cs" />
+    <Compile Include="Data\Schema\MsAccess\MsAccessCacheKeyGenerator.cs" />
+    <Compile Include="Data\Schema\MsAccess\MsAccessColumnSchema.cs" />
+    <Compile Include="Data\Schema\MsAccess\MsAccessParseDefaultValueEventArgs.cs" />
+    <Compile Include="Data\Schema\MsAccess\MsAccessSchemaLoader.cs" />
+    <Compile Include="Data\Schema\MsAccess\MsAccessSchemaLoader.Names.cs" />
+    <Compile Include="Data\Enums.cs" />
+    <Compile Include="LibraryInitializer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Resources\EmptyDatabase.accdb" />
+    <EmbeddedResource Include="Resources\EmptyDatabase.mdb" />
+    <Content Include="Resources\SqlIdGeneratorTableScript.sql" />
+    <Compile Include="UnitTests\MsAccessTestHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Kros.Utils.MsAccess.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kros.Utils\Kros.Utils.csproj">
+      <Project>{94158369-4564-4e7d-bb63-e541a4fda160}</Project>
+      <Name>Kros.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
