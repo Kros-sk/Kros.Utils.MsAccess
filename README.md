@@ -1,35 +1,96 @@
-# Kros.Libs
+# Kros.Utils.MsAccess
 
-This repo contains Kros.Utils, Kros.Utils.MsAccess, Kros.KORM and Kros.KORM.MsAccess libraries.
+[![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
 
-## Kros.Utils [![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
+__Kros.Utils.MsAccess__ is a general library of various utilities to simplify the work of a programmer with Microsoft Access databases.
 
-Universal library of various tools to simplify the work of the programmer. It is platform-independent (also applicable to desktop applications and server services) and is independent of third-party libraries.
+For some (especially database) stuff to work properly, the library needs to be initialized when the program starts by calling [LibraryInitializer.InitLibrary](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Utils.MsAccess.LibraryInitializer.html#Kros_Utils_MsAccess_LibraryInitializer_InitLibrary "LibraryInitializer InitLibrary").
 
-[Kros.Utils Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils")
-
-## Kros.Utils.MsAccess [![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
-
-Kros.Utils library extension for MS Access support. Only applicable in the full .NET framework.
-
-[Kros.Utils.MsAccess Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils.MsAccess")
-
-## Kros.KORM [![Build status](https://ci.appveyor.com/api/projects/status/xebjpdbakd45mfs4/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs-u2wo6/branch/master)
-
-Simple and fast micro-ORM framework for .NET.
-
-[Kros.KORM Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM")
-
-## Kros.KORM.MsAccess [![Build status](https://ci.appveyor.com/api/projects/status/xebjpdbakd45mfs4/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs-u2wo6/branch/master)
-
-Kros.KORM library extension for MS Access support. Only applicable in the full .NET framework.
-
-[Kros.KORM.MsAccess Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM.MsAccess")
+Library is compiled for .NET Framework 4.7.
 
 ## Documentation
 
 For configuration, general information and examples [see the documentation](https://kros-sk.github.io/Kros.Libs.Documentation/).
 
-## Contributing Guide
+## Download
 
-To contribute with new topics/information or make changes, see [contributing](https://github.com/Kros-sk/Kros.Libs/blob/master/CONTRIBUTING.md) for instructions and guidelines.
+Kros.Libs is available from __Nuget__ [__Kros.Utils.MsAccess__](https://www.nuget.org/packages/Kros.Utils.MsAccess/)
+
+## This topic contains following sections
+
+__Kros.Utils.MsAccess__
+
+* [General Utilities](#msaccess-general-utilities)
+* [Database Schema](#msaccess-database-schema)
+* [Bulk Operations - Bulk Insert and Bulk Update](#msaccess-bulk-operations---bulk-insert-and-bulk-update)
+* [Unit Testing Helpers](#msaccess-unit-testing-helpers)
+
+### MsAccess General Utilities
+
+The [MsAccessDataHelper](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html "MsAccessDataHelper") class contains general utilities for working with the MS Access database connection.
+
+* Retrieve current MS Access provider: [MsAccessProvider](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_MsAccessAceProvider "MsAccessProvider")
+* Determining whether the connection to the MS Access database is exclusive: [IsExclusiveMsAccessConnection](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_System_Data_IDbConnection_ "IsExclusiveMsAccessConnection")
+* Determining whether the connection is a connection to the MS Access database: [IsMsAccessConnection](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_System_Data_IDbConnection_ "IsMsAccessConnection")
+
+### MsAccess Database Schema
+
+It is very easy to get a database schema. Since the acquisition of the schema is a time-consuming operation the loaded scheme is held in a cache and the next schema is retrieved. The database schema includes the [TableSchema](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.Schema.TableSchema.html "TableSchema") tables, their [ColumnSchema](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.Schema.ColumnSchema.html "ColumnSchema") columns and [IndexSchema](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.Schema.IndexSchema.html "IndexSchema") indexes.
+
+```c#
+OleDbConnection cn = new OleDbConnection("MS Access Connection String");
+
+DatabaseSchema schema = DatabaseSchemaLoader.Default.LoadSchema(cn);
+```
+
+### MsAccess Bulk Operations - Bulk Insert and Bulk Update
+
+Inserting (`INSERT`) and updating (`UPDATE`) large amounts of data in a database are time-consuming. Therefore, support for rapid mass insertion, `Bulk Insert` and a fast bulk update, `Bulk Update`. The [IBulkInsert](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.BulkActions.IBulkInsert.html "IBulkInsert") and [IBulkUpdate](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.BulkActions.IBulkUpdate.html "IBulkUpdate") interfaces are used. They are implemented for MsAccess database in the [MsAccessBulkInsert](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.BulkActions.MsAccess.MsAccessBulkInsert.html "MsAccessBulkInsert") and [MsAccessBulkUpdate](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.BulkActions.MsAccess.MsAccessBulkUpdate.html "MsAccessBulkUpdate") classes. As a data source, it serves any [IDataReader](https://msdn.microsoft.com/en-us/library/sh674a6a "IDataReader") or [DataTable](https://msdn.microsoft.com/en-us/library/9186hy08 "DataTable") table.
+
+Because `IDataReader` is an intricate interface, you just need to implement the simplier interface [IBulkActionDataReader](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.BulkActions.IBulkActionDataReader.html "IBulkActionDataReader"). If the source is a list (`IEnumerable`), it is sufficient to use the [`EnumerableDataReader<T>`](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.BulkActions.EnumerableDataReader-1.html "EnumerableDataReader<T>") class for its bulk insertion.
+
+```c#
+private class Item
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+public void InsertManyItems()
+{
+    IEnumerable<Item> data = GetData();
+
+    using (var reader = new EnumerableDataReader<Item>(data, new string[] { "Id", "Name" }))
+    {
+        using (var bulkInsert = new MsAccessBulkInsert("connection string"))
+        {
+            bulkInsert.Insert(reader);
+        }
+    }
+}
+```
+
+### MsAccess Unit Testing Helpers
+
+Standard unit tests should be database-independent. But sometimes it is necessary to test the actual database because the test items are directly related to it. To test the actual database you can use the [MsAccessTestHelper](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.UnitTests.MsAccessTestHelper.html "MsAccessTestHelper") class. It creates a database for testing purposes on the server and runs tests over it. When tests are finished the database is deleted.
+
+```c#
+private const string BaseDatabasePath = "C:\testfiles\testdatabase.accdb";
+
+private const string CreateTestTableScript =
+@"CREATE TABLE [TestTable] (
+    [Id] number NOT NULL,
+    [Name] text(255) NULL,
+
+    CONSTRAINT [PK_TestTable] PRIMARY KEY ([Id])
+)";
+
+[Fact]
+public void DoSomeTestWithDatabase()
+{
+    using (var helper = new MsAccessTestHelper(ProviderType.Ace, BaseDatabasePath, CreateTestTableScript))
+    {
+        // Do tests with connection helper.Connection.
+    }
+}
+```
