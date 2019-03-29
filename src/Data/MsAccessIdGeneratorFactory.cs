@@ -9,7 +9,7 @@ namespace Kros.Data.MsAccess
     /// <seealso cref="MsAccessIdGenerator"/>
     /// <seealso cref="IdGeneratorFactories"/>
     /// <example>
-    /// <code language="cs" source="..\..\..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
+    /// <code language="cs" source="..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
     public class MsAccessIdGeneratorFactory
         : IIdGeneratorFactory

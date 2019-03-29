@@ -15,7 +15,7 @@ namespace Kros.Data.MsAccess
     /// <seealso cref="MsAccessIdGeneratorFactory" />
     /// <remarks>In general, the generator should be created using <see cref="MsAccessIdGeneratorFactory"/>.</remarks>
     /// <example>
-    /// <code language="cs" source="..\..\..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
+    /// <code language="cs" source="..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
     public class MsAccessIdGenerator : IdGeneratorBase
     {
