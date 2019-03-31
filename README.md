@@ -10,7 +10,7 @@ Library is compiled for .NET Framework 4.7.
 
 ## Documentation
 
-For configuration, general information and examples [see the documentation](https://kros-sk.github.io/Kros.Libs.Documentation/).
+For configuration, general information and examples [see the documentation](https://kros-sk.github.io/docs/Kros.Utils.MsAccess/).
 
 ## Download
 
