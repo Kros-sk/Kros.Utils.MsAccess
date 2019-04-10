@@ -6,6 +6,12 @@ trigger:
 
 pool: Default
 
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: DevShared/Templates
+
 variables:
   - group: Nuget
   - name: 'buildPlatform'
@@ -18,16 +24,11 @@ variables:
     value: 'Kros.Utils.MsAccess'
 
 steps:
-  - task: NuGetToolInstaller@0
-    displayName: 'Use NuGet $(nuget.Version)'
-    inputs:
-      versionSpec: $(nuget.Version)
+  - template: steps/nuget-download.yml@templates
 
-  - task: NuGetCommand@2
-    displayName: 'Nuget restore'
-    inputs:
-      command: 'restore'
-      restoreSolution: '$(solution)'
+  - template: steps/nuget-restore.yml@templates
+    parameters:
+      useNugetConfig: 'false'
 
   - task: VSBuild@1
     displayName: Build
@@ -37,6 +38,9 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  # - task: VSTest@2
-  #   displayName: Tests
-  #   inputs:
+  - task: DotNetCoreCLI@2
+    displayName: Tests
+    inputs:
+      command: test
+      projects: '**/*test*.csproj'
+      nobuild: true
