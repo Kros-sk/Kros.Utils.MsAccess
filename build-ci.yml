@@ -1,0 +1,46 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+
+pool:
+  name: Default
+
+variables:
+  - group: Nuget
+  - name: 'buildPlatform'
+    value: 'any cpu'
+
+  - name: buildConfiguration
+    value: 'Release'
+  - name: solution
+    value: 'Kros.Utils.MsAccess.sln'
+  - name: projectName
+    value: 'Kros.Utils.MsAccess'
+
+steps:
+  - task: NuGetToolInstaller@0
+    displayName: 'Use NuGet $(nuget.Version)'
+    inputs:
+      versionSpec: $(nuget.Version)
+
+  - task: NuGetCommand@2
+    displayName: 'Nuget restore'
+    inputs:
+      command: 'restore'
+      restoreSolution: '$(solution)'
+      feedsToUse: config
+      nugetConfigPath: $(nuget.configPath)
+
+  - task: VSBuild@1
+    displayName: Build
+    inputs:
+      solution: '$(solution)'
+      msbuildArgs: '/verbosity:normal /p:DeployOnBuild=true /p:SkipInvalidConfigurations=true'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+
+  # - task: VSTest@2
+  #   displayName: Tests
+  #   inputs:
