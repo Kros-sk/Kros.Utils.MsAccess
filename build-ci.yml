@@ -34,7 +34,6 @@ steps:
     displayName: Build
     inputs:
       solution: '$(solution)'
-      msbuildArgs: '/verbosity:normal /p:DeployOnBuild=true /p:SkipInvalidConfigurations=true'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
