@@ -42,4 +42,5 @@ steps:
     inputs:
       testSelector: 'testAssemblies'
       testAssemblyVer2: '**/$(testProjectName).dll'
-      rerunFailedTests: True
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
