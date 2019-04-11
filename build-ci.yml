@@ -22,11 +22,11 @@ variables:
     value: 'Kros.Utils.MsAccess.sln'
   - name: projectName
     value: 'Kros.Utils.MsAccess'
+  - name: testProjectName
+    value: 'Kros.Utils.MsAccess.UnitTests'
 
 steps:
-  - template: steps/nuget-download.yml@templates
-
-  - template: steps/nuget-restore.yml@templates
+  - template: steps/nuget-download-and-restore.yml@templates
     parameters:
       useNugetConfig: 'false'
 
@@ -41,4 +41,4 @@ steps:
     displayName: Tests
     inputs:
       testSelector: 'testAssemblies'
-      testAssemblyVer2: '**/*test*.dll'
+      testAssemblyVer2: '**/$(testProjectName).dll'
