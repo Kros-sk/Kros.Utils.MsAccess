@@ -44,3 +44,4 @@ steps:
       testAssemblyVer2: '**/$(testProjectName).dll'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
+      runInParallel: False
