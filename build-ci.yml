@@ -34,6 +34,7 @@ steps:
     displayName: Build
     inputs:
       solution: '$(solution)'
+      msbuildArgs: '/verbosity:normal /p:SkipInvalidConfigurations=true'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
@@ -41,7 +42,7 @@ steps:
     displayName: Tests
     inputs:
       testSelector: 'testAssemblies'
-      testAssemblyVer2: '**/$(testProjectName).dll'
+      testAssemblyVer2: '**/$(buildConfiguration)/$(testProjectName).dll'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
       runInParallel: False
