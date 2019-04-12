@@ -63,4 +63,5 @@ steps:
   - template: steps/nuget-push.yml@templates
     parameters:
       feedType: 'external'
+      feed: nuget.feed
       packages: '$(Build.ArtifactStagingDirectory)/$(projectName).nupkg'
