@@ -42,8 +42,6 @@ steps:
     displayName: Tests
     inputs:
       testSelector: 'testAssemblies'
-      testAssemblyVer2:
-        '**/$(buildConfiguration)/$(testProjectName).dll'
-        '!**\obj\**'
+      testAssemblyVer2: '**/$(buildConfiguration)/$(testProjectName).dll'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
