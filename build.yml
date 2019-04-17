@@ -1,8 +1,7 @@
 trigger:
-  batch: true
-  branches:
+  tags:
     include:
-    - master
+    - v*
 
 pool: Default
 
