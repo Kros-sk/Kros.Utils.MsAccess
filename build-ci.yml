@@ -1,0 +1,47 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+
+pool: Default
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: DevShared/Templates
+
+variables:
+  - group: Nuget
+  - name: 'buildPlatform'
+    value: 'any cpu'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: solution
+    value: 'Kros.Utils.MsAccess.sln'
+  - name: projectName
+    value: 'Kros.Utils.MsAccess'
+  - name: testProjectName
+    value: 'Kros.Utils.MsAccess.UnitTests'
+
+steps:
+  - template: steps/nuget-download-and-restore.yml@templates
+    parameters:
+      useNugetConfig: 'false'
+
+  - task: VSBuild@1
+    displayName: Build
+    inputs:
+      solution: '$(solution)'
+      msbuildArgs: '/verbosity:normal /p:SkipInvalidConfigurations=true'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+
+  - task: VSTest@2
+    displayName: Tests
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: '**/$(buildConfiguration)/$(testProjectName).dll'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
