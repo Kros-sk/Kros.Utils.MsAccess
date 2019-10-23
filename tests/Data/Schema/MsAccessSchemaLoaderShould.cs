@@ -3,6 +3,7 @@ using Kros.Data.MsAccess;
 using Kros.Data.Schema;
 using Kros.Data.Schema.MsAccess;
 using Kros.UnitTests;
+using Kros.Utils.UnitTests;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -11,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 
-namespace Kros.Utils.UnitTests.Data.Schema
+namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
 {
     public class MsAccessSchemaLoaderShould
     {

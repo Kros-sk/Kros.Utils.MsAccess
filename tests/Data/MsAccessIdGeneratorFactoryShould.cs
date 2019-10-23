@@ -3,7 +3,7 @@ using Kros.Data.MsAccess;
 using System.Data.OleDb;
 using Xunit;
 
-namespace Kros.Utils.UnitTests.Data
+namespace Kros.Utils.MsAccess.UnitTests.Data
 {
     public class MsAccessIdGeneratorFactoryShould
     {
