@@ -4,7 +4,9 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
@@ -91,13 +93,26 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <inheritdoc/>
-        protected override void CreateTempTable(IDataReader reader, string tempTableName)
+        [SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        protected override void CreateTempTableCore(IDataReader reader, string tempTableName)
         {
             using (var cmd = _tempDatabase.CreateCommand())
             {
-                cmd.CommandText = $"SELECT {GetColumnNamesForTempTable(reader)} INTO {(tempTableName)} " +
-                                  $"FROM [{(_connection as OleDbConnection).DataSource}].[{DestinationTableName}] " +
-                                  $"WHERE (1 = 2)";
+                cmd.CommandText =$"SELECT {GetColumnNamesForTempTable(reader, null)} INTO {(tempTableName)} " +
+                    $"FROM [{(_connection as OleDbConnection).DataSource}].[{DestinationTableName}] WHERE (1 = 2)";
+                cmd.ExecuteNonQuery();
+            }
+            CreateTempTablePrimaryKey(tempTableName);
+        }
+
+        private void CreateTempTablePrimaryKey(string tempTableName)
+        {
+            using (var cmd = CreateCommandForPrimaryKey())
+            {
+                string pkList = string.Join(", ", PrimaryKeyColumns.Select(item => $"[{item}]"));
+                cmd.CommandText = $"ALTER TABLE [{tempTableName}] " +
+                    $"ADD CONSTRAINT [PK_{tempTableName.Trim(PrefixTempTable)}] " +
+                    $"PRIMARY KEY NONCLUSTERED ({pkList})";
                 cmd.ExecuteNonQuery();
             }
         }
@@ -118,7 +133,12 @@ namespace Kros.Data.BulkActions.MsAccess
             {
                 var tempDatabasePathAndTable = $"[{_tempDatabasePath}].[{tempTableName}]";
                 var tempAlias = Guid.NewGuid();
-                var innerJoin = $"[{DestinationTableName}].[{PrimaryKeyColumn}] = [{tempAlias}].[{PrimaryKeyColumn}]";
+                var innerJoin = new System.Text.StringBuilder();
+                foreach (string pkColumn in PrimaryKeyColumns)
+                {
+                    innerJoin.Append($"([{DestinationTableName}].[{pkColumn}] = [{tempAlias}].[{pkColumn}]) AND ");
+                }
+                innerJoin.Length -= 5;
 
                 cmd.Transaction = ExternalTransaction;
                 cmd.CommandText = $"UPDATE [{DestinationTableName}] " +
