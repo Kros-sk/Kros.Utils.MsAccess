@@ -3,7 +3,7 @@ using Kros.Data.BulkActions.MsAccess;
 using System.Data.OleDb;
 using Xunit;
 
-namespace Kros.Utils.MsAccess.UnitTests.Data.BulkInsert
+namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 {
     public class MsAccessBulkActionFactoryShould
     {

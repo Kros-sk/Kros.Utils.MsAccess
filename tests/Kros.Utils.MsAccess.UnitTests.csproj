@@ -107,10 +107,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\BulkInsert\MsAccessBulkActionFactoryShould.cs" />
-    <Compile Include="Data\BulkInsert\MsAccessBulkInsertShould.cs" />
-    <Compile Include="Data\BulkInsert\MsAccessBulkHelper.cs" />
-    <Compile Include="Data\BulkInsert\MsAccessBulkUpdateShould.cs" />
+    <Compile Include="Data\BulkActions\MsAccessBulkActionFactoryShould.cs" />
+    <Compile Include="Data\BulkActions\MsAccessBulkHelper.cs" />
+    <Compile Include="Data\BulkActions\MsAccessBulkInsertShould.cs" />
+    <Compile Include="Data\BulkActions\MsAccessBulkUpdateShould.cs" />
     <Compile Include="Data\MsAccessDataHelperShould.cs" />
     <Compile Include="Data\MsAccessIdGeneratorFactoryShould.cs" />
     <Compile Include="Data\MsAccessIdGeneratorShould.cs" />
