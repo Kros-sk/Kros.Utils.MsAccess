@@ -3,6 +3,8 @@ using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
+using Kros.Utils.UnitTests;
+using Kros.Utils.UnitTests.Data.BulkActions;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kros.Utils.UnitTests.Data.BulkActions
+namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 {
     public class MsAccessBulkInsertShould
     {

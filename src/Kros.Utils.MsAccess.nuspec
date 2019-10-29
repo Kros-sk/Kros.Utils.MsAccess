@@ -8,14 +8,17 @@
     <owners>$author$</owners>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/Kros-sk/Kros.Utils.MsAccess/blob/master/README.md</projectUrl>
-    <iconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</iconUrl>
+    <icon>icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</releaseNotes>
     <copyright>Copyright © KROS a.s.</copyright>
     <tags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</tags>
     <dependencies>
-      <dependency id="Kros.Utils" version="1.7.2" />
+      <dependency id="Kros.Utils" version="1.10.1" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="Resources\icon.png" target="" />
+  </files>
 </package>

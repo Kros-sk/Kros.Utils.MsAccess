@@ -1,19 +1,23 @@
-﻿using Kros.Data.BulkActions;
+﻿using FluentAssertions;
+using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
+using Kros.Utils.UnitTests;
+using Kros.Utils.UnitTests.Data.BulkActions;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kros.Utils.UnitTests.Data.BulkActions
+namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 {
     public class MsAccessBulkUpdateShould
     {
@@ -32,6 +36,23 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             public BulkUpdateItem Clone() => (BulkUpdateItem)MemberwiseClone();
         }
 
+        private class BulkUpdateItemComposite
+        {
+            public int Id1 { get; set; }
+            public int Id2 { get; set; }
+            public string DataValue { get; set; }
+            public override bool Equals(object obj)
+            {
+                if (obj is BulkUpdateItemComposite item)
+                {
+                    return (Id1 == item.Id1) && (Id2 == item.Id2) && (DataValue == item.DataValue);
+                }
+                return base.Equals(obj);
+            }
+            public override int GetHashCode()
+                => Id1.GetHashCode() ^ Id2.GetHashCode() ^ (DataValue is null ? 0 : DataValue.GetHashCode());
+        }
+
         #endregion
 
         #region Constants
@@ -39,6 +60,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         private const string AccdbFileName = "MsAccessBulkUpdate.accdb";
         private const string MdbFileName = "MsAccessBulkUpdate.mdb";
         private const string TableName = "BulkUpdateTest";
+        private const string Composite_TableName = "BulkUpdateTestCompositePK";
         private const string PrimaryKeyColumn = "Id";
         private const string ShortTextAction = "dolor sit amet";
         private const double DoubleMinimum = -999999999999999999999.999999999999;
@@ -81,6 +103,74 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
             DataTable actualData = LoadData(cn);
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [SkippableFact]
+        public async Task BulkUpdateDataWithCompositePkAccdb()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
+            {
+                await BulkUpdateDataWithCompositePk(helper.Connection);
+            }
+        }
+
+        [SkippableFact]
+        public async Task BulkUpdateDataWithCompositePkMdb()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                await BulkUpdateDataWithCompositePk(helper.Connection);
+            }
+        }
+
+        private async Task BulkUpdateDataWithCompositePk(OleDbConnection cn)
+        {
+            List<BulkUpdateItemComposite> actualData = null;
+
+            using (var bulkUpdate = new MsAccessBulkUpdate(cn))
+            {
+                var dataToUpdate = new EnumerableDataReader<BulkUpdateItemComposite>(
+                    new[] {
+                        new BulkUpdateItemComposite() { Id1 = 1, Id2 = 2, DataValue = "lorem ipsum 1" },
+                        new BulkUpdateItemComposite() { Id1 = 2, Id2 = 2, DataValue = "lorem ipsum 2" },
+                        new BulkUpdateItemComposite() { Id1 = 3, Id2 = 2, DataValue = "lorem ipsum 3" }
+                    },
+                    new[] { nameof(BulkUpdateItemComposite.Id1), nameof(BulkUpdateItemComposite.Id2), nameof(BulkUpdateItemComposite.DataValue) });
+
+                bulkUpdate.DestinationTableName = Composite_TableName;
+                bulkUpdate.PrimaryKeyColumn = nameof(BulkUpdateItemComposite.Id1) + ", " + nameof(BulkUpdateItemComposite.Id2);
+                await bulkUpdate.UpdateAsync(dataToUpdate);
+
+                actualData = LoadDataForTableWithCompositePk(cn, Composite_TableName);
+            }
+
+            actualData.Should().Equal(new List<BulkUpdateItemComposite>(new[]
+            {
+                new BulkUpdateItemComposite() { Id1 = 1, Id2 = 1, DataValue = "1 - 1" },
+                new BulkUpdateItemComposite() { Id1 = 1, Id2 = 2, DataValue = "lorem ipsum 1" },
+                new BulkUpdateItemComposite() { Id1 = 2, Id2 = 1, DataValue = "2 - 1" },
+                new BulkUpdateItemComposite() { Id1 = 2, Id2 = 2, DataValue = "lorem ipsum 2" },
+                new BulkUpdateItemComposite() { Id1 = 3, Id2 = 1, DataValue = "3 - 1" },
+                new BulkUpdateItemComposite() { Id1 = 3, Id2 = 2, DataValue = "lorem ipsum 3" },
+            }));
+        }
+
+        [SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        private List<BulkUpdateItemComposite> LoadDataForTableWithCompositePk(OleDbConnection cn, string tableName)
+        {
+            var data = new List<BulkUpdateItemComposite>();
+
+            using (var cmd = new OleDbCommand($"SELECT [Id1], [Id2], [DataValue] FROM [{tableName}] ORDER BY [Id1], [Id2]", cn))
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    data.Add(new BulkUpdateItemComposite() { Id1 = reader.GetInt32(0), Id2 = reader.GetInt32(1), DataValue = reader.GetString(2) });
+                }
+            }
+            return data;
         }
 
         [SkippableFact]

@@ -4,7 +4,7 @@ __Kros.Utils.MsAccess__ is a general library of various utilities to simplify th
 
 For some (especially database) stuff to work properly, the library needs to be initialized when the program starts by calling [LibraryInitializer.InitLibrary](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Utils.MsAccess.LibraryInitializer.html#Kros_Utils_MsAccess_LibraryInitializer_InitLibrary "LibraryInitializer InitLibrary").
 
-Library is compiled for .NET Framework 4.7.
+Library is compiled for .NET Framework 4.6.
 
 ## Documentation
 
