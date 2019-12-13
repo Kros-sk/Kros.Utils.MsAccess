@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Kros.Utils.MsAccess")]
 [assembly: AssemblyDescription("General utilities and helpers for MsAccess.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("KROS a.s.")]
+[assembly: AssemblyCompany("KROS a. s.")]
 [assembly: AssemblyProduct("Kros.Utils.MsAccess")]
-[assembly: AssemblyCopyright("Copyright © KROS a.s.")]
+[assembly: AssemblyCopyright("Copyright © KROS a. s.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.3.0")]
-[assembly: AssemblyFileVersion("1.6.3.0")]
+[assembly: AssemblyVersion("1.7.0.0")]
+[assembly: AssemblyFileVersion("1.7.0.0")]
