@@ -12,10 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</releaseNotes>
-    <copyright>Copyright © KROS a.s.</copyright>
+    <copyright>Copyright © KROS a. s.</copyright>
     <tags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</tags>
     <dependencies>
-      <dependency id="Kros.Utils" version="1.10.1" />
+      <dependency id="Kros.Utils" version="1.11.0" />
     </dependencies>
   </metadata>
   <files>
