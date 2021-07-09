@@ -13,7 +13,6 @@ namespace Kros.Data.MsAccess
     /// </summary>
     public static class MsAccessDataHelper
     {
-
         /// <summary>
         /// Identification of Microsoft Access classes (used for example in <see cref="MsAccessIdGeneratorFactory"/>,
         /// <see cref="BulkActions.MsAccess.MsAccessBulkActionFactory"/>).
