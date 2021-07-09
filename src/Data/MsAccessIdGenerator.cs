@@ -17,7 +17,7 @@ namespace Kros.Data.MsAccess
     /// <example>
     /// <code language="cs" source="..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
-    public class MsAccessIdGenerator : IdGeneratorBase
+    public class MsAccessIdGenerator : DbNumericIdGeneratorBase<int>
     {
         /// <summary>
         /// Creates a generator for table <paramref name="tableName"/> in database <paramref name="connectionString"/>
@@ -103,6 +103,18 @@ namespace Kros.Data.MsAccess
                 }
             }
         }
+
+        /// <inheritdoc/>
+        public override string BackendDataType => "int";
+
+        /// <inheritdoc/>
+        public override string BackendTableName => "IdStore";
+
+        /// <inheritdoc/>
+        public override string BackendStoredProcedureName => "spGetNewId";
+
+        /// <inheritdoc/>
+        protected override int AddValue(int baseValue, int increment) => baseValue + increment;
 
         #region Private helpers
 
