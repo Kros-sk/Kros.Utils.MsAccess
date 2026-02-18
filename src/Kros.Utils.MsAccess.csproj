@@ -1,100 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <RuntimeIdentifier>win</RuntimeIdentifier>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5735B2C0-DE20-41FE-8EA7-8B2ED910B9FA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kros.MsAccess</RootNamespace>
-    <AssemblyName>Kros.Utils.MsAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Debug\Kros.Utils.MsAccess.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Release\Kros.Utils.MsAccess.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Data\BulkActions\MsAccess\CsvFileWriter.cs" />
-    <Compile Include="Data\BulkActions\MsAccess\Enums.cs" />
-    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkInsert.cs" />
-    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkActionFactory.cs" />
-    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkUpdate.cs" />
-    <Compile Include="Data\Extensions.cs" />
-    <Compile Include="Data\MsAccessDataHelper.cs" />
-    <Compile Include="Data\MsAccessIdGenerator.cs" />
-    <Compile Include="Data\MsAccessIdGeneratorFactory.cs" />
-    <Compile Include="Data\MsAccessErrorCode.cs" />
-    <Compile Include="Data\Schema\MsAccess\MsAccessCacheKeyGenerator.cs" />
-    <Compile Include="Data\Schema\MsAccess\MsAccessColumnSchema.cs" />
-    <Compile Include="Data\Schema\MsAccess\MsAccessParseDefaultValueEventArgs.cs" />
-    <Compile Include="Data\Schema\MsAccess\MsAccessSchemaLoader.cs" />
-    <Compile Include="Data\Schema\MsAccess\MsAccessSchemaLoader.Names.cs" />
-    <Compile Include="Data\Enums.cs" />
-    <Compile Include="LibraryInitializer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Resources\EmptyDatabase.accdb" />
-    <EmbeddedResource Include="Resources\EmptyDatabase.mdb" />
-    <Content Include="Resources\SqlIdGeneratorTableScript.sql" />
-    <Compile Include="UnitTests\MsAccessTestHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Kros.Utils.MsAccess.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Kros.Utils">
-      <Version>4.1.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <RuntimeIdentifier>win</RuntimeIdentifier>
+        <RootNamespace>Kros.MsAccess</RootNamespace>
+        <AssemblyName>Kros.Utils.MsAccess</AssemblyName>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <SignAssembly>false</SignAssembly>
+
+        <!-- NuGet package metadata (replaces .nuspec) -->
+        <PackageId>Kros.Utils.MsAccess</PackageId>
+        <Version>2.0.0</Version>
+        <Authors>KROS a. s.</Authors>
+        <Company>KROS a. s.</Company>
+        <Description>General utilities and helpers for MsAccess.</Description>
+        <Copyright>Copyright © KROS a. s.</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/Kros-sk/Kros.Utils.MsAccess/blob/master/README.md</PackageProjectUrl>
+        <PackageReleaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</PackageReleaseNotes>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="System.Data" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.IdentityModel" />
+        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\EmptyDatabase.accdb" />
+        <EmbeddedResource Include="Resources\EmptyDatabase.mdb" />
+        <Content Include="Resources\SqlIdGeneratorTableScript.sql" />
+        <None Include="Resources\icon.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Kros.Utils" Version="4.1.0" />
+    </ItemGroup>
+
 </Project>
