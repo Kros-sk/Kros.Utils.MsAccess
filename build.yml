@@ -24,7 +24,7 @@ steps:
       dotnet restore
     displayName: NuGet restore
 
-  - task: MSBuild@1
+  - task: VSBuild@1
     displayName: Build
     inputs:
       solution: $(Build.SourcesDirectory)/Kros.Utils.MsAccess.sln
