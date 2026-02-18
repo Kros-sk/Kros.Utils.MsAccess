@@ -59,7 +59,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 
         #region Tests
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableIntoAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -69,10 +69,10 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableIntoMdb() => BulkInsertDataFromDataTableIntoMdbCore();
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableIntoMdbSynchronouslyWithoutDeadLock()
             => AsyncContext.Run(() => BulkInsertDataFromDataTableIntoMdbCore());
 
@@ -85,7 +85,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public async Task BulkInsertDataFromDataTableIntoMdbAsynchronously()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -116,7 +116,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromIBulkActionDataReaderIntoAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -126,15 +126,15 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromIBulkActionDataReaderIntoMdb()
             => BulkInsertDataFromIBulkActionDataReaderIntoMdbCore();
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromIBulkActionDataReaderIntoMdbSynchronouslyWithoutDeadLock()
             => AsyncContext.Run(() => BulkInsertDataFromIBulkActionDataReaderIntoMdbCore());
 
-        [SkippableFact]
+        [Fact]
         public async Task BulkInsertDataFromIBulkActionDataReaderIntoMdbAsynchronously()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -180,7 +180,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromIDataReaderIntoMdbSynchronouslyWithoutDeadLock()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -205,7 +205,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             });
         }
 
-        [SkippableFact]
+        [Fact]
         public async Task BulkInsertDataFromIDataReaderIntoMdbAsynchronously()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -227,7 +227,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableWithExplicitColumnMappingsIntoAce()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -245,7 +245,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableWithExplicitColumnMappingsIntoMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -263,7 +263,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableWithExplicitColumnMappings2IntoAce()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -281,7 +281,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkInsertDataFromDataTableWithExplicitColumnMappings2IntoMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -357,7 +357,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void ThrowInvalidOperationExceptionWhenDestinationColumnMappingIsInvalid_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -367,7 +367,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void ThrowInvalidOperationExceptionWhenDestinationColumnMappingIsInvalid_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();

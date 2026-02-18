@@ -70,7 +70,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 
         #region Tests
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataFromDataTableIntoAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -80,7 +80,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataFromDataTableIntoMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -105,7 +105,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
         }
 
-        [SkippableFact]
+        [Fact]
         public async Task BulkUpdateDataWithCompositePkAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -115,7 +115,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public async Task BulkUpdateDataWithCompositePkMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -173,7 +173,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             return data;
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataFromIBulkActionDataReaderIntoAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -183,7 +183,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataFromIBulkActionDataReaderIntoMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -193,7 +193,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataWithActionFromIBulkActionDataReaderAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -203,7 +203,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataWithActionFromIBulkActionDataReaderIntoMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -213,7 +213,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void BulkUpdateDataFromIDataReaderIntoMdbSynchronouslyWithoutDeadLock()
         {
             AsyncContext.Run(() =>
@@ -237,7 +237,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
             });
         }
 
-        [SkippableFact]
+        [Fact]
         public async Task BulkUpdateDataFromIDataReaderIntoMdbAsynchronously()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();

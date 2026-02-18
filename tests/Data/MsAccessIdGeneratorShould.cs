@@ -3,8 +3,6 @@ using Kros.Data.MsAccess;
 using Kros.Data.Schema.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
-using System;
-using System.IO;
 using System.Reflection;
 using Xunit;
 
@@ -167,6 +165,8 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
 
         private MsAccessTestHelper CreateHelper()
         {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+
             string resourceName = Helpers.RootNamespaceResources + ".MsAccessIdGenerator.mdb";
             Stream sourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
 
@@ -175,6 +175,8 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
 
         private MsAccessTestHelper CreateHelperWithEmptyDatabase()
         {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+
             string resourceName = Helpers.RootNamespaceResources + ".MsAccessSchema.mdb";
             Stream sourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
 
