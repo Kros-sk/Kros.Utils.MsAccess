@@ -17,27 +17,25 @@ variables:
     value: $(outputFolder)/TestResults
 
 steps:
-  - task: NuGetToolInstaller@1
-    displayName: Install NuGet
-
   - pwsh: |
-      dotnet restore
+      dotnet restore "$(Build.SourcesDirectory)/Kros.Utils.MsAccess.sln"
     displayName: NuGet restore
 
-  - task: VSBuild@1
-    displayName: Build
-    inputs:
-      solution: $(Build.SourcesDirectory)/Kros.Utils.MsAccess.sln
-      msbuildArgs: /verbosity:normal /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:OutDir="$(outputFolder)"
-      platform: Any CPU
-      configuration: Release
+  - pwsh: |
+      dotnet build "$(Build.SourcesDirectory)/src/Kros.Utils.MsAccess.csproj" --configuration Release
+    displayName: Build library
 
   - pwsh: |
-      & "$(outputFolder)/Kros.Utils.MsAccess.UnitTests.exe" -trx "$(testResultsFolder)/Kros.Utils.MsAccess.UnitTests.xml"
-    displayName: Test
+      dotnet build "$(Build.SourcesDirectory)/tests/Kros.Utils.MsAccess.UnitTests.csproj" --configuration Release --output "$(outputFolder)/tests"
+    displayName: Build tests
+
+  - pwsh: |
+      & "$(outputFolder)/tests/Kros.Utils.MsAccess.UnitTests.exe" -trx "$(testResultsFolder)/Kros.Utils.MsAccess.UnitTests.xml"
+    displayName: Run tests
 
   - task: PublishTestResults@2
     displayName: Publish test results
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: VSTest
       testResultsFiles: '**/*.xml'
@@ -45,7 +43,7 @@ steps:
 
   - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
     - pwsh: |
-        nuget pack "$(Build.SourcesDirectory)/src/Kros.Utils.MsAccess.csproj" -Build -OutputDirectory "$(Build.artifactStagingDirectory)"
+        dotnet pack "$(Build.SourcesDirectory)/src/Kros.Utils.MsAccess.csproj" --configuration Release --output "$(Build.artifactStagingDirectory)"
       displayName: NuGet pack
 
     - pwsh: |
@@ -53,7 +51,7 @@ steps:
         Write-Host "Found $($nupkgFiles.Count) .nupkg file(s) to push"
         foreach ($nupkgFile in $nupkgFiles) {
           Write-Host "Pushing $($nupkgFile.FullName)"
-          & nuget push "$($nupkgFile.FullName)" -Source https://nuget.org -ApiKey $(nugetOrgApiKey) -SkipDuplicate
+          & dotnet nuget push "$($nupkgFile.FullName)" --source https://api.nuget.org/v3/index.json --api-key $(nugetOrgApiKey) --skip-duplicate
           Write-Host
         }
       displayName: NuGet push
