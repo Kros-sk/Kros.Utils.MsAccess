@@ -1,66 +1,59 @@
 trigger:
-  tags:
+  batch: true
+  branches:
     include:
-    - v*
+      - master
 
 pool: Default
 
-resources:
-  repositories:
-    - repository: templates
-      type: git
-      name: DevShared/Templates
+workspace:
+  clean: all
 
 variables:
   - group: Nuget
-  - name: 'buildPlatform'
-    value: 'any cpu'
-  - name: buildConfiguration
-    value: 'Release'
-  - name: solution
-    value: 'Kros.Utils.MsAccess.sln'
-  - name: projectName
-    value: 'Kros.Utils.MsAccess'
-  - name: testProjectName
-    value: 'Kros.Utils.MsAccess.UnitTests'
+  - name: outputFolder
+    value: $(Build.SourcesDirectory)/_output
+  - name: testResultsFolder
+    value: $(outputFolder)/TestResults
 
 steps:
-  - template: steps/delete-nupkgs.yml@templates
+  - task: NuGetToolInstaller@1
+    displayName: Install NuGet
 
-  - template: steps/nuget-download-and-restore.yml@templates
-    parameters:
-      useNugetConfig: 'false'
+  - pwsh: |
+      dotnet restore
+    displayName: NuGet restore
 
-  - task: VSBuild@1
+  - task: MSBuild@1
     displayName: Build
     inputs:
-      solution: '$(solution)'
-      msbuildArgs: '/verbosity:normal /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true'
-      platform: '$(buildPlatform)'
-      configuration: '$(buildConfiguration)'
+      solution: $(Build.SourcesDirectory)/Kros.Utils.MsAccess.sln
+      msbuildArgs: /verbosity:normal /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:OutDir="$(outputFolder)"
+      platform: Any CPU
+      configuration: Release
 
-  - task: VSTest@2
-    displayName: Tests
+  - pwsh: |
+      & "$(outputFolder)/Kros.Utils.MsAccess.UnitTests.exe" -trx "$(testResultsFolder)/Kros.Utils.MsAccess.UnitTests.xml"
+    displayName: Test
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
     inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: '**/$(buildConfiguration)/$(testProjectName).dll'
-      platform: '$(buildPlatform)'
-      configuration: '$(buildConfiguration)'
+      testResultsFormat: VSTest
+      testResultsFiles: '**/*.xml'
+      searchFolder: $(testResultsFolder)
 
-  - task: NuGetCommand@2
-    displayName: 'NuGet pack'
-    inputs:
-      command: pack
-      packagesToPack: '**/$(projectName).csproj'
+  - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+    - pwsh: |
+        nuget pack "$(Build.SourcesDirectory)/src/Kros.Utils.MsAccess.csproj" -Build -OutputDirectory "$(Build.artifactStagingDirectory)"
+      displayName: NuGet pack
 
-  - task: CopyFiles@2
-    displayName: 'Copy package files to staging directory'
-    inputs:
-      SourceFolder: '$(System.DefaultWorkingDirectory)'
-      Contents: '**/$(projectName).nupkg'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      FlattenFolders: true
-
-  - template: steps/nuget-push.yml@templates
-    parameters:
-      feed: $(nuget.feed)
+    - pwsh: |
+        $nupkgFiles = Get-ChildItem -Path "$(Build.ArtifactStagingDirectory)" -Filter "*.nupkg"
+        Write-Host "Found $($nupkgFiles.Count) .nupkg file(s) to push"
+        foreach ($nupkgFile in $nupkgFiles) {
+          Write-Host "Pushing $($nupkgFile.FullName)"
+          & nuget push "$($nupkgFile.FullName)" -Source https://nuget.org -ApiKey $(nugetOrgApiKey) -SkipDuplicate
+          Write-Host
+        }
+      displayName: NuGet push
