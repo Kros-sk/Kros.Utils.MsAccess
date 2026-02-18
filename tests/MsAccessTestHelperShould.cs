@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
-using System.IO;
+using Kros.Utils.UnitTests;
 using Xunit;
 
 namespace Kros.Utils.MsAccess.UnitTests
@@ -11,6 +11,7 @@ namespace Kros.Utils.MsAccess.UnitTests
         [Fact]
         public void CreateNewDatabaseAndCleanUp()
         {
+            Helpers.SkipTestIfJetProviderNotAvailable();
             string databasePath = null;
             using (var helper = new MsAccessTestHelper(ProviderType.Jet))
             {
@@ -25,6 +26,7 @@ namespace Kros.Utils.MsAccess.UnitTests
         [Fact]
         public void CreateDatabaseWhenDatabasePathIsUsed()
         {
+            Helpers.SkipTestIfJetProviderNotAvailable();
             using (var helper = new MsAccessTestHelper(ProviderType.Jet, @"./Resources/MsAccessTestHelper.mdb"))
             {
                 var connection = helper.Connection;

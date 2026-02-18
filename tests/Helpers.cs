@@ -12,13 +12,13 @@ namespace Kros.Utils.UnitTests
 
         public static void SkipTestIfAceProviderNotAvailable()
         {
-            Skip.If(!MsAccessDataHelper.HasProvider(ProviderType.Ace),
+            Assert.SkipWhen(!MsAccessDataHelper.HasProvider(ProviderType.Ace),
                 string.Format(ProviderNotAvailableMessage, MsAccessDataHelper.AceProviderBase));
         }
 
         public static void SkipTestIfJetProviderNotAvailable()
         {
-            Skip.If(!MsAccessDataHelper.HasProvider(ProviderType.Jet),
+            Assert.SkipWhen(!MsAccessDataHelper.HasProvider(ProviderType.Jet),
                 string.Format(ProviderNotAvailableMessage, MsAccessDataHelper.JetProviderBase));
         }
     }

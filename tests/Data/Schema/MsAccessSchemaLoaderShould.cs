@@ -28,7 +28,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
 
         #region Tests
 
-        [SkippableFact]
+        [Fact]
         public void LoadCorrectTableSchemaFromMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -38,7 +38,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void LoadCorrectTableSchemaFromMdb2()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -48,7 +48,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void LoadCorrectTableSchemaFromAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -58,7 +58,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void LoadCorrectTableSchemaFromAccdb2()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -68,7 +68,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void ReturnNullIfTableDoesNotExistInMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -78,7 +78,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void ReturnNullIfTableDoesNotExistInAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -88,7 +88,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void LoadCorrectIndexesFromMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -98,7 +98,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             }
         }
 
-        [SkippableFact]
+        [Fact]
         public void LoadCorrectIndexesFromAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();

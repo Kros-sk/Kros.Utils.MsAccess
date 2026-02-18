@@ -24,14 +24,14 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
 
         #region General tests
 
-        [SkippableFact]
+        [Fact]
         public void CreateEmptyAccdbDatabase()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             CreateEmptyDatabaseCore(ProviderType.Ace);
         }
 
-        [SkippableFact]
+        [Fact]
         public void CreateEmptyMdbDatabase()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();

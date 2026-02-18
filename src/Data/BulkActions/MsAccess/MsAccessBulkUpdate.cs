@@ -34,12 +34,12 @@ namespace Kros.Data.BulkActions.MsAccess
         /// </summary>
         /// <param name="connectionString">Connection string to the database where the data will be inserted.</param>
         public MsAccessBulkUpdate(string connectionString)
+            : base(new OleDbConnection(connectionString), true)
         {
             Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
 
             ExternalTransaction = null;
             _connection = new OleDbConnection(connectionString);
-            _disposeOfConnection = true;
         }
 
         /// <summary>
@@ -60,6 +60,7 @@ namespace Kros.Data.BulkActions.MsAccess
         /// <paramref name="externalTransaction"/>.</param>
         /// <param name="externalTransaction">Transaction in which the bulk insert will be performed.</param>
         public MsAccessBulkUpdate(OleDbConnection connection, OleDbTransaction externalTransaction)
+            : base(connection, false)
         {
             _connection = connection;
             ExternalTransaction = externalTransaction;
