@@ -2,6 +2,7 @@
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
+using System.Data.OleDb;
 using Xunit;
 
 namespace Kros.Utils.MsAccess.UnitTests
@@ -27,12 +28,10 @@ namespace Kros.Utils.MsAccess.UnitTests
         public void CreateDatabaseWhenDatabasePathIsUsed()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
-            using (var helper = new MsAccessTestHelper(ProviderType.Jet, @"./Resources/MsAccessTestHelper.mdb"))
-            {
-                var connection = helper.Connection;
+            using var helper = new MsAccessTestHelper(ProviderType.Jet, @"./Resources/MsAccessTestHelper.mdb");
+            OleDbConnection connection = helper.Connection;
 
-                connection.Should().NotBeNull();
-            }
+            connection.Should().NotBeNull();
         }
     }
 }
