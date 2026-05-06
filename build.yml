@@ -1,57 +1,57 @@
 trigger:
-  batch: true
+  batch: false
   branches:
     include:
-      - master
+      - main
 
-pool: Default
-
-workspace:
-  clean: all
+pool:
+  name: Default
+  demands: Agent.OS -equals Windows_NT
 
 variables:
   - group: Nuget
-  - name: outputFolder
-    value: $(Build.SourcesDirectory)/_output
-  - name: testResultsFolder
-    value: $(outputFolder)/TestResults
 
 steps:
   - pwsh: |
-      dotnet restore "$(Build.SourcesDirectory)/Kros.Utils.MsAccess.sln"
-    displayName: NuGet restore
+      Get-ChildItem -Path '$(Build.ArtifactStagingDirectory)' -Recurse -Include *.nupkg, *.snupkg | Remove-Item
+      Get-ChildItem -Path '$(Build.SourcesDirectory)' -Recurse -Include *.nupkg, *.snupkg | Remove-Item
+    displayName: Clear NuGet packages
 
-  - pwsh: |
-      dotnet build "$(Build.SourcesDirectory)/src/Kros.Utils.MsAccess.csproj" --configuration Release
-    displayName: Build library
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: Kros.Utils.MsAccess.slnx
+      arguments: --configuration Release
 
-  - pwsh: |
-      dotnet build "$(Build.SourcesDirectory)/tests/Kros.Utils.MsAccess.UnitTests.csproj" --configuration Release --output "$(outputFolder)/tests"
-    displayName: Build tests
-
-  - pwsh: |
-      & "$(outputFolder)/tests/Kros.Utils.MsAccess.UnitTests.exe" -trx "$(testResultsFolder)/Kros.Utils.MsAccess.UnitTests.xml"
-    displayName: Run tests
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: Kros.Utils.MsAccess.slnx
+      publishTestResults: false
+      arguments: --configuration Release --logger trx --results-directory "$(Common.TestResultsDirectory)"
 
   - task: PublishTestResults@2
     displayName: Publish test results
     condition: succeededOrFailed()
     inputs:
       testResultsFormat: VSTest
-      testResultsFiles: '**/*.xml'
-      searchFolder: $(testResultsFolder)
+      testResultsFiles: '*.trx'
+      searchFolder: $(Common.TestResultsDirectory)
 
-  - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-    - pwsh: |
-        dotnet pack "$(Build.SourcesDirectory)/src/Kros.Utils.MsAccess.csproj" --configuration Release --output "$(Build.artifactStagingDirectory)"
-      displayName: NuGet pack
+  - task: CopyFiles@2
+    displayName: Copy package files to staging folder
+    inputs:
+      Contents: |
+        **/*.nupkg
+        **/*.snupkg
+      TargetFolder: $(Build.ArtifactStagingDirectory)
+      FlattenFolders: true
 
-    - pwsh: |
-        $nupkgFiles = Get-ChildItem -Path "$(Build.ArtifactStagingDirectory)" -Filter "*.nupkg"
-        Write-Host "Found $($nupkgFiles.Count) .nupkg file(s) to push"
-        foreach ($nupkgFile in $nupkgFiles) {
-          Write-Host "Pushing $($nupkgFile.FullName)"
-          & dotnet nuget push "$($nupkgFile.FullName)" --source https://api.nuget.org/v3/index.json --api-key $(nugetOrgApiKey) --skip-duplicate
-          Write-Host
-        }
-      displayName: NuGet push
+  - pwsh: |
+      Get-ChildItem '$(Build.ArtifactStagingDirectory)/*.nupkg' | ForEach-Object {
+        Write-Host 'Pushing package $($_.Name)'
+        dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate $_.FullName
+      }
+    displayName: Push to NuGet.org

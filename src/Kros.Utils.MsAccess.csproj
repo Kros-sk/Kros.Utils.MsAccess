@@ -6,6 +6,7 @@
         <RootNamespace>Kros.MsAccess</RootNamespace>
         <AssemblyName>Kros.Utils.MsAccess</AssemblyName>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <SignAssembly>false</SignAssembly>
 
         <!-- NuGet package metadata (replaces .nuspec) -->
@@ -20,6 +21,11 @@
         <PackageReleaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</PackageReleaseNotes>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</PackageTags>
+
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <ItemGroup>
