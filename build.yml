@@ -50,9 +50,8 @@ steps:
       FlattenFolders: true
 
   - pwsh: |
-      Get-ChildItem '$(Build.ArtifactStagingDirectory)'
+      Get-ChildItem '$(Build.ArtifactStagingDirectory)/*.nupkg' | ForEach-Object {
+        Write-Host 'Pushing package $($_.Name)'
+        dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate $_.FullName
+      }
     displayName: Push to NuGet.org
-
-  # - pwsh: |
-  #     dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate '$(Build.ArtifactStagingDirectory)/*.nupkg'
-  #   displayName: Push to NuGet.org
