@@ -6,6 +6,7 @@
         <RootNamespace>Kros.MsAccess</RootNamespace>
         <AssemblyName>Kros.Utils.MsAccess</AssemblyName>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <SignAssembly>false</SignAssembly>
 
         <!-- NuGet package metadata (replaces .nuspec) -->
