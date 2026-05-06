@@ -40,18 +40,20 @@ steps:
       testResultsFiles: '*.trx'
       searchFolder: $(Common.TestResultsDirectory)
 
-  - task: CopyFiles@2
-    displayName: Copy package files to staging folder
-    inputs:
-      Contents: |
-        **/*.nupkg
-        **/*.snupkg
-      TargetFolder: $(Build.ArtifactStagingDirectory)
-      FlattenFolders: true
+  - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
 
-  - pwsh: |
-      Get-ChildItem '$(Build.ArtifactStagingDirectory)/*.nupkg' | ForEach-Object {
-        Write-Host 'Pushing package $($_.Name)'
-        dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate $_.FullName
-      }
-    displayName: Push to NuGet.org
+    - task: CopyFiles@2
+      displayName: Copy package files to staging folder
+      inputs:
+        Contents: |
+          **/*.nupkg
+          **/*.snupkg
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+        FlattenFolders: true
+
+    - pwsh: |
+        Get-ChildItem '$(Build.ArtifactStagingDirectory)/*.nupkg' | ForEach-Object {
+          Write-Host 'Pushing package $($_.Name)'
+          dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate $_.FullName
+        }
+      displayName: Push to NuGet.org
