@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Kros.Data.MsAccess;
+﻿using Kros.Data.MsAccess;
 using Kros.Data.Schema.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
@@ -25,7 +24,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    idGenerator.GetNext().Should().Be(i + 1);
+                    Assert.Equal(i + 1, idGenerator.GetNext());
                 }
             }
         }
@@ -37,7 +36,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
             {
                 for (int i = 0; i < 15; i++)
                 {
-                    idGenerator.GetNext().Should().Be(i + 1);
+                    Assert.Equal(i + 1, idGenerator.GetNext());
                 }
             }
         }
@@ -57,7 +56,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    idGenerator.GetNext().Should().Be(10 + i + 1);
+                    Assert.Equal(10 + i + 1, idGenerator.GetNext());
                 }
             }
         }
@@ -77,7 +76,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
             {
                 for (int i = 0; i < 15; i++)
                 {
-                    idGenerator.GetNext().Should().Be(10 + i + 1);
+                    Assert.Equal(10 + i + 1, idGenerator.GetNext());
                 }
             }
         }
@@ -87,22 +86,18 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
         {
             using (var idGenerator = GetFactory().GetGenerator("People"))
             {
-                idGenerator.GetNext().Should().Be(1);
+                Assert.Equal(1, idGenerator.GetNext());
 
                 using (var nextGenerator = GetFactory().GetGenerator("People", 3))
                 {
-                    nextGenerator.GetNext().Should().Be(2);
-
-                    idGenerator.GetNext().Should().Be(5);
-
-                    nextGenerator.GetNext().Should().Be(3);
-
-                    nextGenerator.GetNext().Should().Be(4);
-
-                    nextGenerator.GetNext().Should().Be(6);
+                    Assert.Equal(2, nextGenerator.GetNext());
+                    Assert.Equal(5, idGenerator.GetNext());
+                    Assert.Equal(3, nextGenerator.GetNext());
+                    Assert.Equal(4, nextGenerator.GetNext());
+                    Assert.Equal(6, nextGenerator.GetNext());
                 }
 
-                idGenerator.GetNext().Should().Be(9);
+                Assert.Equal(9, idGenerator.GetNext());
             }
         }
 
@@ -113,13 +108,13 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    idGenerator.GetNext().Should().Be(i + 1);
+                    Assert.Equal(i + 1, idGenerator.GetNext());
 
                     using (var addressIdGenerator = GetFactory().GetGenerator("Addresses", 5))
                     {
                         for (int j = 0; j < 5; j++)
                         {
-                            addressIdGenerator.GetNext().Should().Be(j + 5 * i + 1);
+                            Assert.Equal(j + 5 * i + 1, addressIdGenerator.GetNext());
                         }
                     }
                 }
@@ -134,12 +129,12 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
             using (var helper = CreateHelperWithEmptyDatabase())
             {
                 var schemaLoader = new MsAccessSchemaLoader();
-                schemaLoader.LoadTableSchema(helper.Connection, tableName).Should().BeNull();
+                Assert.Null(schemaLoader.LoadTableSchema(helper.Connection, tableName));
 
                 var idGenerator = new MsAccessIdGenerator(helper.Connection, "TestTable", 1);
                 idGenerator.InitDatabaseForIdGenerator();
 
-                schemaLoader.LoadTableSchema(helper.Connection, tableName).Should().NotBeNull();
+                Assert.NotNull(schemaLoader.LoadTableSchema(helper.Connection, tableName));
             }
         }
 
@@ -154,10 +149,10 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
 
                 var idGenerator = new MsAccessIdGenerator(helper.Connection, "TestTable", 1);
                 idGenerator.InitDatabaseForIdGenerator();
-                schemaLoader.LoadTableSchema(helper.Connection, tableName).Should().NotBeNull();
+                Assert.NotNull(schemaLoader.LoadTableSchema(helper.Connection, tableName));
 
                 idGenerator.InitDatabaseForIdGenerator();
-                schemaLoader.LoadTableSchema(helper.Connection, tableName).Should().NotBeNull();
+                Assert.NotNull(schemaLoader.LoadTableSchema(helper.Connection, tableName));
             }
         }
 

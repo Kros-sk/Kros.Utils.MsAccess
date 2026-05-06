@@ -1,9 +1,6 @@
-﻿using FluentAssertions;
-using Kros.Data.MsAccess;
+﻿using Kros.Data.MsAccess;
 using Kros.Utils.UnitTests;
-using System;
 using System.Data.OleDb;
-using System.IO;
 using Xunit;
 
 namespace Kros.Utils.MsAccess.UnitTests.Data
@@ -52,7 +49,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
                         cn.Open();
                     }
                 };
-                connectToEmptyDbAction.Should().NotThrow();
+                connectToEmptyDbAction();
             }
             finally
             {
@@ -68,43 +65,39 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
         public void GetProviderType_NullConnectionString()
         {
             string connectionString = null;
-            ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString))).Should().Throw<ArgumentNullException>();
+            Assert.Throws<ArgumentNullException>(() => MsAccessDataHelper.GetProviderType(connectionString));
         }
 
         [Fact]
         public void GetProviderType_EmptyConnectionString()
         {
-            ((Action)(() => MsAccessDataHelper.GetProviderType(string.Empty))).Should().Throw<ArgumentException>();
+            Assert.Throws<ArgumentException>(() => MsAccessDataHelper.GetProviderType(string.Empty));
         }
 
         [Fact]
         public void GetProviderType_BaseConnectionString()
         {
             var connectionString = string.Format(BaseConnectionString, string.Empty);
-            ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString)))
-                .Should().Throw<InvalidOperationException>();
+            Assert.Throws<InvalidOperationException>(() => MsAccessDataHelper.GetProviderType(connectionString));
         }
 
         [Fact]
         public void GetProviderType_AceConnectionString()
         {
-            MsAccessDataHelper.GetProviderType(string.Format(BaseConnectionString, AceProvider))
-                .Should().Be(ProviderType.Ace);
+            Assert.Equal(ProviderType.Ace, MsAccessDataHelper.GetProviderType(string.Format(BaseConnectionString, AceProvider)));
         }
 
         [Fact]
         public void GetProviderType_JetConnectionString()
         {
-            MsAccessDataHelper.GetProviderType(string.Format(BaseConnectionString, JetProvider))
-                .Should().Be(ProviderType.Jet);
+            Assert.Equal(ProviderType.Jet, MsAccessDataHelper.GetProviderType(string.Format(BaseConnectionString, JetProvider)));
         }
 
         [Fact]
         public void GetProviderType_SqlConnectionString()
         {
             var connectionString = string.Format(BaseConnectionString, SqlProvider);
-            ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString)))
-                .Should().Throw<InvalidOperationException>();
+            Assert.Throws<InvalidOperationException>(() => MsAccessDataHelper.GetProviderType(connectionString));
         }
 
         #endregion
@@ -112,40 +105,40 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
         #region Is MsAccess Ace Provider
 
         [Fact]
-        public void IsMsAccesAceProvider_EmptyConnectionString() =>
-            MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, string.Empty)).Should().BeFalse();
+        public void IsMsAccesAceProvider_EmptyConnectionString()
+            => Assert.False(MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, string.Empty)));
 
         [Fact]
-        public void IsMsAccesAceProvider_AceConnectionString() =>
-            MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, AceProvider)).Should().BeTrue();
+        public void IsMsAccesAceProvider_AceConnectionString()
+            => Assert.True(MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, AceProvider)));
 
         [Fact]
-        public void IsMsAccesAceProvider_JetConnectionString() =>
-            MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, JetProvider)).Should().BeFalse();
+        public void IsMsAccesAceProvider_JetConnectionString()
+            => Assert.False(MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, JetProvider)));
 
         [Fact]
-        public void IsMsAccesAceProvider_SqlConnectionString() =>
-            MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, SqlProvider)).Should().BeFalse();
+        public void IsMsAccesAceProvider_SqlConnectionString()
+            => Assert.False(MsAccessDataHelper.IsMsAccessAceProvider(string.Format(BaseConnectionString, SqlProvider)));
 
         #endregion
 
         #region Is MsAccess Jet Provider
 
         [Fact]
-        public void IsMsAccesJetProvider_EmptyConnectionString() =>
-            MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, string.Empty)).Should().BeFalse();
+        public void IsMsAccesJetProvider_EmptyConnectionString()
+            => Assert.False(MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, string.Empty)));
 
         [Fact]
-        public void IsMsAccesJetProvider_AceConnectionString() =>
-            MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, AceProvider)).Should().BeFalse();
+        public void IsMsAccesJetProvider_AceConnectionString()
+            => Assert.False(MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, AceProvider)));
 
         [Fact]
-        public void IsMsAccesJetProvider_JetConnectionString() =>
-            MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, JetProvider)).Should().BeTrue();
+        public void IsMsAccesJetProvider_JetConnectionString()
+            => Assert.True(MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, JetProvider)));
 
         [Fact]
-        public void IsMsAccesJetProvider_SqlConnectionString() =>
-            MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, SqlProvider)).Should().BeFalse();
+        public void IsMsAccesJetProvider_SqlConnectionString()
+            => Assert.False(MsAccessDataHelper.IsMsAccessJetProvider(string.Format(BaseConnectionString, SqlProvider)));
 
         #endregion
     }

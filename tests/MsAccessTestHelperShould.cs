@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Kros.Data.MsAccess;
+﻿using Kros.Data.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
 using System.Data.OleDb;
@@ -16,12 +15,13 @@ namespace Kros.Utils.MsAccess.UnitTests
             string databasePath = null;
             using (var helper = new MsAccessTestHelper(ProviderType.Jet))
             {
-                helper.Connection.Should().NotBeNull();
+                Assert.NotNull(helper.Connection);
                 databasePath = helper.DatabasePath;
-                databasePath.Should().NotBeNullOrEmpty();
-                File.Exists(databasePath).Should().BeTrue();
+                Assert.NotNull(databasePath);
+                Assert.NotEqual(string.Empty, databasePath);
+                Assert.True(File.Exists(databasePath));
             }
-            File.Exists(databasePath).Should().BeFalse();
+            Assert.False(File.Exists(databasePath));
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Kros.Utils.MsAccess.UnitTests
             using var helper = new MsAccessTestHelper(ProviderType.Jet, @"./Resources/MsAccessTestHelper.mdb");
             OleDbConnection connection = helper.Connection;
 
-            connection.Should().NotBeNull();
+            Assert.NotNull(connection);
         }
     }
 }

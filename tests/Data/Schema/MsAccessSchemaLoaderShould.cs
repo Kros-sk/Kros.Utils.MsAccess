@@ -1,14 +1,9 @@
-﻿using FluentAssertions;
-using Kros.Data.MsAccess;
+﻿using Kros.Data.MsAccess;
 using Kros.Data.Schema;
 using Kros.Data.Schema.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
-using System;
-using System.Collections.Generic;
 using System.Data.OleDb;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using Xunit;
 
@@ -140,7 +135,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             MsAccessSchemaLoader loader = new MsAccessSchemaLoader();
 
             TableSchema actual = loader.LoadTableSchema(cn, InvalidTableName);
-            actual.Should().BeNull();
+            Assert.Null(actual);
         }
 
         private void LoadCorrectIndexesCore(OleDbConnection cn)
@@ -149,7 +144,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
             DatabaseSchema schema = loader.LoadSchema(cn);
             TableSchema table = schema.Tables["IndexesTest"];
 
-            table.PrimaryKey.Should().NotBeNull();
+            Assert.NotNull(table.PrimaryKey);
             CheckIndex(table.PrimaryKey, IndexType.PrimaryKey,
                 new Tuple<string, SortOrder>[] { Tuple.Create("Id", SortOrder.Ascending) });
             CheckIndex(table.Indexes["I_Index"], IndexType.Index, new Tuple<string, SortOrder>[] {
@@ -167,7 +162,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
                 "ColDecimal", "ColVarChar", "ColVarCharNotNull", "ColText", "ColDateTime", "ColBoolean", "ColGuid" };
 
             IEnumerable<string> actualColumns = from column in table.Columns select column.Name;
-            actualColumns.Should().BeEquivalentTo(expectedColumns, "Missing or invalid columns in table.");
+            Assert.Equal(expectedColumns, actualColumns);
 
             CheckColumnSchema(table.Columns["ColByte"], OleDbType.UnsignedTinyInt, null, true);
             CheckColumnSchema(table.Columns["ColInt32"], OleDbType.SmallInt, (short)32, true);
@@ -201,38 +196,38 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.Schema
         {
             MsAccessColumnSchema msAccessColumn = (MsAccessColumnSchema)column;
             string columnName = msAccessColumn.Name;
-            msAccessColumn.OleDbType.Should().Be(oleDbType, $"{columnName} should have correct OleDbType.");
-            msAccessColumn.AllowNull.Should().Be(allowNull, $"{columnName} should allow NULL.");
+            Assert.Equal(oleDbType, msAccessColumn.OleDbType);
+            Assert.Equal(allowNull, msAccessColumn.AllowNull);
             if (defaultValue != null)
             {
-                msAccessColumn.DefaultValue.Should().Be(defaultValue, $"{columnName} should have correct default value.");
+                Assert.Equal(defaultValue, msAccessColumn.DefaultValue);
             }
             if (size.HasValue)
             {
-                msAccessColumn.Size.Should().Be(size, $"{columnName} should have correct size.");
+                Assert.Equal(size, msAccessColumn.Size);
             }
             if (precision.HasValue)
             {
-                msAccessColumn.Precision.Should().Be(precision, $"{columnName} should have correct precision.");
+                Assert.Equal(precision, msAccessColumn.Precision);
             }
             if (scale.HasValue)
             {
-                msAccessColumn.Scale.Should().Be(scale, $"{columnName} should have correct scale.");
+                Assert.Equal(scale, msAccessColumn.Scale);
             }
         }
 
         private static void CheckIndex(IndexSchema index, IndexType indexType, Tuple<string, SortOrder>[] columns)
         {
-            index.IndexType.Should().Be(indexType, $"Index {index.Name} should have correct type.");
-            index.Columns.Count.Should().Be(columns.Length, $"Index {index.Name} should have correct columns count.");
+            Assert.Equal(indexType, index.IndexType);
+            Assert.Equal(columns.Length, index.Columns.Count);
 
             IEnumerable<string> expectedColumns = from column in columns select column.Item1;
             IEnumerable<string> actualColumns = from column in index.Columns select column.Name;
-            actualColumns.Should().Equal(expectedColumns, $"Index {index.Name} should have correct columns.");
+            Assert.Equal(expectedColumns, actualColumns);
 
             IEnumerable<SortOrder> expectedOrdering = from column in columns select column.Item2;
             IEnumerable<SortOrder> actualOrdering = from column in index.Columns select column.Order;
-            actualOrdering.Should().Equal(expectedOrdering, $"Index {index.Name} should have correct columns ordering.");
+            Assert.Equal(expectedOrdering, actualOrdering);
         }
 
         #endregion
