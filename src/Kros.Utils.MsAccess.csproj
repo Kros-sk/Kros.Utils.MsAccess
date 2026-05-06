@@ -11,7 +11,7 @@
 
         <!-- NuGet package metadata (replaces .nuspec) -->
         <PackageId>Kros.Utils.MsAccess</PackageId>
-        <Version>2.1.0</Version>
+        <Version>2.2.0</Version>
         <Authors>KROS a. s.</Authors>
         <Company>KROS a. s.</Company>
         <Description>General utilities and helpers for MsAccess.</Description>
@@ -19,9 +19,10 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Kros-sk/Kros.Utils.MsAccess/blob/master/README.md</PackageProjectUrl>
         <PackageReleaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</PackageReleaseNotes>
-        <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</PackageTags>
 
+        <PackageIcon>logo.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
@@ -41,11 +42,12 @@
         <EmbeddedResource Include="Resources\EmptyDatabase.accdb" />
         <EmbeddedResource Include="Resources\EmptyDatabase.mdb" />
         <Content Include="Resources\SqlIdGeneratorTableScript.sql" />
-        <None Include="Resources\icon.png" Pack="true" PackagePath="" />
+        <None Include="../README.md" Pack="true" PackagePath="/" />
+        <None Include="../logo.png" Pack="true" PackagePath="/" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Kros.Utils" Version="4.2.0" />
+        <PackageReference Include="Kros.Utils" Version="4.3.0" />
     </ItemGroup>
 
 </Project>
