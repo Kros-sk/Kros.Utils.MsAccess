@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Kros.Data.BulkActions.MsAccess;
+﻿using Kros.Data.BulkActions.MsAccess;
 using System.Data.OleDb;
 using Xunit;
 
@@ -15,7 +14,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
                 var factory = new MsAccessBulkActionFactory(conn);
                 var bulkInsert = factory.GetBulkInsert(null, 10) as MsAccessBulkInsert;
 
-                bulkInsert.CodePage.Should().Be(10);
+                Assert.Equal(10, bulkInsert.CodePage);
             }
         }
 
@@ -27,7 +26,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
                 var factory = new MsAccessBulkActionFactory(conn);
                 var bulkUpdate = factory.GetBulkUpdate() as MsAccessBulkUpdate;
 
-                bulkUpdate.Should().NotBeNull();
+                Assert.NotNull(bulkUpdate);
             }
         }
     }

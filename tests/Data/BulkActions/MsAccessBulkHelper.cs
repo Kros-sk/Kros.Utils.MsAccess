@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using System;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
+using Xunit;
 
 namespace Kros.Utils.UnitTests.Data.BulkActions
 {
@@ -35,7 +33,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 }
             }
 
-            primaryKeysAreTheSame.Should().BeTrue("Primárne kľúče tabuliek musia byť rovnaké. " +
+            Assert.True(primaryKeysAreTheSame, "Primárne kľúče tabuliek musia byť rovnaké. " +
                 $"actual = {GetPk(actualTable)}; expected = {GetPk(expectedTable)}");
         }
 
@@ -44,20 +42,16 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         private static void CompareColumns(DataTable actualTable, DataTable expectedTable)
         {
-            actualTable.Columns.Count.Should().Be(expectedTable.Columns.Count,
-                $"Tabuľky majú rôzny počet stĺpcov: actual = {actualTable.Columns.Count}, " +
-                $"expected = {expectedTable.Columns.Count}.");
+            Assert.Equal(expectedTable.Columns.Count, actualTable.Columns.Count);
 
             foreach (DataColumn column in expectedTable.Columns)
             {
-                actualTable.Columns[column.ColumnName].Should().NotBeNull($"Tabuľke chýba stĺpec [{column.ColumnName}].");
+                Assert.NotNull(actualTable.Columns[column.ColumnName]);
             }
         }
 
         private static void CompareRowCounts(DataTable actualTable, DataTable expectedTable) =>
-            actualTable.Rows.Count.Should().Be(expectedTable.Rows.Count,
-                $"Tabuľky majú rôzny počet riadkov: actual = {actualTable.Rows.Count}, " +
-                $"expected = {expectedTable.Rows.Count}.");
+            Assert.Equal(expectedTable.Rows.Count, actualTable.Rows.Count);
 
         private static void CompareData(DataTable actualTable, DataTable expectedTable)
         {
@@ -85,16 +79,14 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 pk += expectedRow[expectedRow.Table.PrimaryKey[i]].ToString();
             }
 
-            actualRow.Should().NotBeNull($"V tabuľke neexistuje riadok s primárnym kľúčom \"{pk}\".");
+            Assert.NotNull(actualRow);
 
             foreach (DataColumn column in expectedRow.Table.Columns)
             {
                 string expectedValue = expectedRow[column] == DBNull.Value ? "NULL" : expectedRow[column].ToString();
                 string actualValue = actualRow[column.ColumnName] == DBNull.Value ? "NULL" : actualRow[column.ColumnName].ToString();
 
-                actualValue.Should().Be(expectedValue, $"Riadok s primárnym kľúčom \"{pk}\" nemá požadované dáta. " +
-                    $"V stĺpci [{column.ColumnName}] je hodnota \"{actualValue}\", " +
-                    $"očakávaná hodnota je \"{expectedValue}\".");
+                Assert.Equal(expectedValue, actualValue);
             }
         }
 

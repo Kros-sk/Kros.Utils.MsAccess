@@ -1,20 +1,14 @@
-﻿using FluentAssertions;
-using Kros.Data.BulkActions;
+﻿using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
 using Kros.Utils.UnitTests.Data.BulkActions;
 using Nito.AsyncEx;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
@@ -146,7 +140,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
                 actualData = LoadDataForTableWithCompositePk(cn, Composite_TableName);
             }
 
-            actualData.Should().Equal(new List<BulkUpdateItemComposite>(new[]
+            BulkUpdateItemComposite[] expected = new[]
             {
                 new BulkUpdateItemComposite() { Id1 = 1, Id2 = 1, DataValue = "1 - 1" },
                 new BulkUpdateItemComposite() { Id1 = 1, Id2 = 2, DataValue = "lorem ipsum 1" },
@@ -154,7 +148,8 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
                 new BulkUpdateItemComposite() { Id1 = 2, Id2 = 2, DataValue = "lorem ipsum 2" },
                 new BulkUpdateItemComposite() { Id1 = 3, Id2 = 1, DataValue = "3 - 1" },
                 new BulkUpdateItemComposite() { Id1 = 3, Id2 = 2, DataValue = "lorem ipsum 3" },
-            }));
+            };
+            Assert.Equal(actualData, expected);
         }
 
         [SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities")]

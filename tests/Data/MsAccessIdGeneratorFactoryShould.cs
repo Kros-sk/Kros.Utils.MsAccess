@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Kros.Data.MsAccess;
+﻿using Kros.Data.MsAccess;
 using System.Data.OleDb;
 using Xunit;
 
@@ -15,8 +14,8 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
                 var factory = new MsAccessIdGeneratorFactory(conn);
                 var generator = factory.GetGenerator("Person", 10) as MsAccessIdGenerator;
 
-                generator.TableName.Should().Be("Person");
-                generator.BatchSize.Should().Be(10);
+                Assert.Equal("Person", generator.TableName);
+                Assert.Equal(10, generator.BatchSize);
             }
         }
     }

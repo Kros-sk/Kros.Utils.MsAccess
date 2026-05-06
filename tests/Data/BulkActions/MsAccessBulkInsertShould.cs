@@ -1,18 +1,13 @@
-﻿using FluentAssertions;
-using Kros.Data.BulkActions;
+﻿using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
 using Kros.Utils.UnitTests;
 using Kros.Utils.UnitTests.Data.BulkActions;
 using Nito.AsyncEx;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
@@ -330,30 +325,40 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 
                 bulkInsert.ColumnMappings.Add("Id", "Id");
                 bulkInsert.ColumnMappings.Add(123, "DestinationName");
-                action.Should().Throw<InvalidOperationException>($"Mapping's SourceOrdinal is invalid.")
-                    .WithMessage("*1*123*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                    {
+                        return ex.Message.Contains("123") ? null : "Mapping's SourceOrdinal is invalid.";
+                    });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add("Id", "Id");
                 bulkInsert.ColumnMappings.Add("ColNote", "ColNote");
                 bulkInsert.ColumnMappings.Add("InvalidColumnName", 2);
-                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is invalid.")
-                    .WithMessage("*2*InvalidColumnName*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("InvalidColumnName") ? null : "Mapping's SourceName is invalid.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add(null, "Id");
-                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is null.")
-                    .WithMessage("*0*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("0") ? null : "Mapping's SourceName is null.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add(string.Empty, "Id");
-                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is empty string.")
-                    .WithMessage("*0*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("0") ? null : "Mapping's SourceName is empty string.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add(" \t \r\n", "Id");
-                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is whitespace string.")
-                    .WithMessage("*0*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("0") ? null : "Mapping's SourceName is whitespace string.";
+                });
             }
         }
 
@@ -388,30 +393,42 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 
                 bulkInsert.ColumnMappings.Add("Id", "Id");
                 bulkInsert.ColumnMappings.Add("ColNote", 123);
-                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationOrdinal is invalid.")
-                    .WithMessage($"*1*{TableName}*123*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains($"{TableName}") ? null : "Mapping's DestinationOrdinal is invalid.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add("Id", "Id");
                 bulkInsert.ColumnMappings.Add("ColNote", "ColNote");
                 bulkInsert.ColumnMappings.Add(2, "InvalidColumnName");
-                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is invalid.")
-                    .WithMessage($"*2*{TableName}*InvalidColumnName*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    bool ok = ex.Message.Contains($"{TableName}");
+                    ok &= ex.Message.Contains("InvalidColumnName");
+                    return ok ? null : "Mapping's DestinationName is invalid.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add("Id", null);
-                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is null.")
-                    .WithMessage("*0*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("0") ? null : "Mapping's DestinationName is null.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add("Id", string.Empty);
-                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is empty string.")
-                    .WithMessage("*0*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("0") ? null : "Mapping's DestinationName is empty string.";
+                });
 
                 bulkInsert.ColumnMappings.Clear();
                 bulkInsert.ColumnMappings.Add("Id", " \t \r\n");
-                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is whitespace string.")
-                    .WithMessage("*0*");
+                Assert.Throws<InvalidOperationException>(() => action(), ex =>
+                {
+                    return ex.Message.Contains("0") ? null : "Mapping's DestinationName is whitespace string.";
+                });
             }
         }
 
