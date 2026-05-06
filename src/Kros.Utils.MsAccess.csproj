@@ -21,6 +21,11 @@
         <PackageReleaseNotes>https://github.com/Kros-sk/Kros.Utils.MsAccess/releases</PackageReleaseNotes>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Kros;Utils;Utility;Helpers;Extensions;DatabaseSchema;BulkInsert;BulkOperation;BulkUpdate;Bulk Update;Bulk Insert;MsAccess</PackageTags>
+
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <ItemGroup>

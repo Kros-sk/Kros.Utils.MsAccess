@@ -50,5 +50,9 @@ steps:
       FlattenFolders: true
 
   - pwsh: |
-      dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate '$(Build.ArtifactStagingDirectory)/*.nupkg'
+      Get-ChildItem '$(Build.ArtifactStagingDirectory)'
     displayName: Push to NuGet.org
+
+  # - pwsh: |
+  #     dotnet nuget push --api-key $(nugetOrgApiKey) --source 'https://api.nuget.org/v3/index.json'  --skip-duplicate '$(Build.ArtifactStagingDirectory)/*.nupkg'
+  #   displayName: Push to NuGet.org
