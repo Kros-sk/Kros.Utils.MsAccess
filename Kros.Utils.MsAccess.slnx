@@ -2,7 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
-    <File Path="build.yml" />
+    <File Path=".github/workflows/build.yml" />
   </Folder>
   <Project Path="src/Kros.Utils.MsAccess.csproj" />
   <Project Path="tests/Kros.Utils.MsAccess.UnitTests.csproj" />
