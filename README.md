@@ -1,4 +1,4 @@
-# Kros.Utils.MsAccess [![Build Status](https://dev.azure.com/krossk/DevShared/_apis/build/status/Kros.Utils/Kros.Utils.MsAccess?branchName=features/buildAndPush)](https://dev.azure.com/krossk/DevShared/_build/latest?definitionId=65&branchName=master)
+# Kros.Utils.MsAccess [![Build](https://github.com/Kros-sk/Kros.Utils.MsAccess/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/Kros-sk/Kros.Utils.MsAccess/actions/workflows/build.yml)
 
 __Kros.Utils.MsAccess__ is a general library of various utilities to simplify the work of a programmer with Microsoft Access databases.
 

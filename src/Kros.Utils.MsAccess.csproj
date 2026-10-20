@@ -50,4 +50,8 @@
         <PackageReference Include="Kros.Utils" Version="4.3.0" />
     </ItemGroup>
 
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
 </Project>
