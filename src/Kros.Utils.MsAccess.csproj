@@ -11,7 +11,7 @@
 
         <!-- NuGet package metadata (replaces .nuspec) -->
         <PackageId>Kros.Utils.MsAccess</PackageId>
-        <Version>2.2.0</Version>
+        <Version>2.3.0</Version>
         <Authors>KROS a. s.</Authors>
         <Company>KROS a. s.</Company>
         <Description>General utilities and helpers for MsAccess.</Description>
