@@ -47,7 +47,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Kros.Utils" Version="4.3.0" />
+        <PackageReference Include="Kros.Utils" Version="4.5.0" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
