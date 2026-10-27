@@ -72,6 +72,13 @@ public void InsertManyItems()
 }
 ```
 
+Asynchronous variants of `MsAccessBulkInsert` and `MsAccessBulkUpdate` accept a `CancellationToken`:
+
+```c#
+await bulkInsert.InsertAsync(reader, cancellationToken);
+await bulkUpdate.UpdateAsync(reader, cancellationToken);
+```
+
 ### MsAccess Unit Testing Helpers
 
 Standard unit tests should be database-independent. But sometimes it is necessary to test the actual database because the test items are directly related to it. To test the actual database you can use the [MsAccessTestHelper](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.UnitTests.MsAccessTestHelper.html "MsAccessTestHelper") class. It creates a database for testing purposes on the server and runs tests over it. When tests are finished the database is deleted.

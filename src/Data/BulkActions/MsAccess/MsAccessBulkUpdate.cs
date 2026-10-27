@@ -7,6 +7,7 @@ using System.Data.OleDb;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
@@ -128,7 +129,15 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <inheritdoc/>
-        protected async override Task UpdateDestinationTableAsync(IDataReader reader, string tempTableName, bool useAsync)
+        protected sealed override Task UpdateDestinationTableAsync(IDataReader reader, string tempTableName, bool useAsync)
+            => UpdateDestinationTableAsync(reader, tempTableName, useAsync, CancellationToken.None);
+
+        /// <inheritdoc/>
+        protected async override Task UpdateDestinationTableAsync(
+            IDataReader reader,
+            string tempTableName,
+            bool useAsync,
+            CancellationToken cancellationToken)
         {
             using (var cmd = _connection.CreateCommand())
             {
@@ -147,7 +156,7 @@ namespace Kros.Data.BulkActions.MsAccess
                     $"SET " + GetUpdateColumnNames(reader, tempAlias.ToString());
                 if (useAsync)
                 {
-                    await (cmd as DbCommand).ExecuteNonQueryAsync();
+                    await (cmd as DbCommand).ExecuteNonQueryAsync(cancellationToken);
                 }
                 else
                 {
