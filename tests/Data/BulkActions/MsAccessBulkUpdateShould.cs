@@ -135,7 +135,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
 
                 bulkUpdate.DestinationTableName = Composite_TableName;
                 bulkUpdate.PrimaryKeyColumn = nameof(BulkUpdateItemComposite.Id1) + ", " + nameof(BulkUpdateItemComposite.Id2);
-                await bulkUpdate.UpdateAsync(dataToUpdate);
+                await bulkUpdate.UpdateAsync(dataToUpdate, TestContext.Current.CancellationToken);
 
                 actualData = LoadDataForTableWithCompositePk(cn, Composite_TableName);
             }
@@ -245,12 +245,162 @@ namespace Kros.Utils.MsAccess.UnitTests.Data.BulkActions
                 {
                     bulkUpdate.DestinationTableName = TableName;
                     bulkUpdate.PrimaryKeyColumn = PrimaryKeyColumn;
-                    await bulkUpdate.UpdateAsync(reader);
+                    await bulkUpdate.UpdateAsync(reader, TestContext.Current.CancellationToken);
                 }
 
                 DataTable actualData = LoadData(helper.Connection);
                 MsAccessBulkHelper.CompareTables(actualData, expectedData);
             }
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromIDataReaderIntoMdbAsynchronouslyWithCancellationToken()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                DataTable expectedData = CreateExpectedData();
+
+                using (IDataReader reader = expectedData.CreateDataReader())
+                using (var bulkUpdate = new MsAccessBulkUpdate(helper.Connection))
+                {
+                    bulkUpdate.DestinationTableName = TableName;
+                    bulkUpdate.PrimaryKeyColumn = PrimaryKeyColumn;
+                    await bulkUpdate.UpdateAsync(reader, TestContext.Current.CancellationToken);
+                }
+
+                DataTable actualData = LoadData(helper.Connection);
+                MsAccessBulkHelper.CompareTables(actualData, expectedData);
+            }
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromIBulkActionDataReaderIntoMdbAsynchronouslyWithCancellationToken()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                DataTable expectedData = CreateExpectedData();
+
+                using (IBulkActionDataReader reader = CreateDataReaderForUpdate())
+                using (var bulkUpdate = new MsAccessBulkUpdate(helper.Connection))
+                {
+                    bulkUpdate.DestinationTableName = TableName;
+                    bulkUpdate.PrimaryKeyColumn = PrimaryKeyColumn;
+                    await bulkUpdate.UpdateAsync(reader, TestContext.Current.CancellationToken);
+                }
+
+                DataTable actualData = LoadData(helper.Connection);
+                MsAccessBulkHelper.CompareTables(actualData, expectedData);
+            }
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromDataTableIntoMdbAsynchronouslyWithCancellationToken()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                DataTable expectedData = CreateExpectedData();
+
+                using (var bulkUpdate = new MsAccessBulkUpdate(helper.Connection))
+                {
+                    bulkUpdate.DestinationTableName = TableName;
+                    bulkUpdate.PrimaryKeyColumn = PrimaryKeyColumn;
+                    await bulkUpdate.UpdateAsync(expectedData, TestContext.Current.CancellationToken);
+                }
+
+                DataTable actualData = LoadData(helper.Connection);
+                MsAccessBulkHelper.CompareTables(actualData, expectedData);
+            }
+        }
+
+        [Fact]
+        public async Task ThrowOperationCanceledExceptionWhenTokenIsAlreadyCancelledAccdb()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
+            {
+                await ThrowOperationCanceledExceptionWhenTokenIsAlreadyCancelledCore(helper.Connection);
+            }
+        }
+
+        [Fact]
+        public async Task ThrowOperationCanceledExceptionWhenTokenIsAlreadyCancelledMdb()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                await ThrowOperationCanceledExceptionWhenTokenIsAlreadyCancelledCore(helper.Connection);
+            }
+        }
+
+        private async Task ThrowOperationCanceledExceptionWhenTokenIsAlreadyCancelledCore(OleDbConnection cn)
+        {
+            DataTable originalData = LoadData(cn);
+            DataTable data = CreateExpectedData();
+
+            using (IDataReader reader = data.CreateDataReader())
+            using (var bulkUpdate = new MsAccessBulkUpdate(cn))
+            {
+                bulkUpdate.DestinationTableName = TableName;
+                bulkUpdate.PrimaryKeyColumn = PrimaryKeyColumn;
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(
+                    () => bulkUpdate.UpdateAsync(reader, new CancellationToken(canceled: true)));
+            }
+
+            DataTable actualData = LoadData(cn);
+            MsAccessBulkHelper.CompareTables(actualData, originalData);
+        }
+
+        [Fact]
+        public async Task ThrowOperationCanceledExceptionWhenTokenIsCancelledDuringUpdateAccdb()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
+            {
+                await ThrowOperationCanceledExceptionWhenTokenIsCancelledDuringUpdateCore(helper.Connection);
+            }
+        }
+
+        [Fact]
+        public async Task ThrowOperationCanceledExceptionWhenTokenIsCancelledDuringUpdateMdb()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                await ThrowOperationCanceledExceptionWhenTokenIsCancelledDuringUpdateCore(helper.Connection);
+            }
+        }
+
+        private async Task ThrowOperationCanceledExceptionWhenTokenIsCancelledDuringUpdateCore(OleDbConnection cn)
+        {
+            DataTable originalData = LoadData(cn);
+
+            using (var cts = new CancellationTokenSource())
+            using (IBulkActionDataReader reader =
+                new CancellingBulkActionDataReader(CreateDataReaderForUpdate(), cts, cancelOnReadNumber: 2))
+            using (var bulkUpdate = new MsAccessBulkUpdate(cn))
+            {
+                bulkUpdate.DestinationTableName = TableName;
+                bulkUpdate.PrimaryKeyColumn = PrimaryKeyColumn;
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(
+                    () => bulkUpdate.UpdateAsync(reader, cts.Token));
+            }
+
+            DataTable actualData = LoadData(cn);
+            MsAccessBulkHelper.CompareTables(actualData, originalData);
+        }
+
+        [Fact]
+        public void SealTokenlessUpdateDestinationTableHookSoSubclassesMustOverrideTokenOverload()
+        {
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            MethodInfo updateDestination = typeof(MsAccessBulkUpdate).GetMethod(
+                "UpdateDestinationTableAsync", flags, null, new[] { typeof(IDataReader), typeof(string), typeof(bool) }, null);
+
+            Assert.NotNull(updateDestination);
+            Assert.True(updateDestination.IsFinal, "UpdateDestinationTableAsync(reader, tempTableName, useAsync) must be sealed.");
         }
 
         private void IBulkActionDataReaderBulkUpdateCore(OleDbConnection cn)

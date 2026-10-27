@@ -11,7 +11,7 @@
 
         <!-- NuGet package metadata (replaces .nuspec) -->
         <PackageId>Kros.Utils.MsAccess</PackageId>
-        <Version>2.3.0</Version>
+        <Version>2.4.0</Version>
         <Authors>KROS a. s.</Authors>
         <Company>KROS a. s.</Company>
         <Description>General utilities and helpers for MsAccess.</Description>
@@ -47,7 +47,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Kros.Utils" Version="4.5.0" />
+        <PackageReference Include="Kros.Utils" Version="4.6.0" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

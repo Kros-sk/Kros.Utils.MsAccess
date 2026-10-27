@@ -10,6 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
@@ -230,30 +231,42 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <inheritdoc/>
-        public async Task InsertAsync(IBulkActionDataReader reader)
+        public Task InsertAsync(IBulkActionDataReader reader) => InsertAsync(reader, CancellationToken.None);
+
+        /// <inheritdoc/>
+        public async Task InsertAsync(IBulkActionDataReader reader, CancellationToken cancellationToken)
         {
             using (var bulkInsertReader = new BulkActionDataReader(reader))
             {
-                await InsertAsync(bulkInsertReader);
+                await InsertAsync(bulkInsertReader, cancellationToken);
             }
         }
 
         /// <inheritdoc/>
-        public void Insert(IDataReader reader) => InsertCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+        public void Insert(IDataReader reader)
+            => InsertCoreAsync(reader, useAsync: false, CancellationToken.None).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public Task InsertAsync(IDataReader reader) => InsertCoreAsync(reader, useAsync: true);
+        public Task InsertAsync(IDataReader reader) => InsertAsync(reader, CancellationToken.None);
 
-        private async Task InsertCoreAsync(IDataReader reader, bool useAsync)
+        /// <inheritdoc/>
+        public Task InsertAsync(IDataReader reader, CancellationToken cancellationToken)
+            => InsertCoreAsync(reader, useAsync: true, cancellationToken);
+
+        private async Task InsertCoreAsync(IDataReader reader, bool useAsync, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             string filePath = null;
 
             try
             {
                 _columns.Clear();
                 filePath = CreateDataFile(reader);
+                // The CSV file is written synchronously by CsvFileWriter, which does not observe the token.
+                // Check it here so a token cancelled while data was being copied aborts before anything hits the database.
+                cancellationToken.ThrowIfCancellationRequested();
                 InitBulkInsert(filePath, reader);
-                await InsertAsync(filePath, useAsync);
+                await InsertAsync(filePath, useAsync, cancellationToken);
             }
             finally
             {
@@ -282,16 +295,19 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <inheritdoc/>
-        public async Task InsertAsync(DataTable table)
+        public Task InsertAsync(DataTable table) => InsertAsync(table, CancellationToken.None);
+
+        /// <inheritdoc/>
+        public async Task InsertAsync(DataTable table, CancellationToken cancellationToken)
         {
             using (var reader = table.CreateDataReader())
             {
-                await InsertAsync(reader);
+                await InsertAsync(reader, cancellationToken);
             }
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private async Task InsertAsync(string sourceFilePath, bool useAsync)
+        private async Task InsertAsync(string sourceFilePath, bool useAsync, CancellationToken cancellationToken)
         {
             if (!File.Exists(sourceFilePath))
             {
@@ -315,7 +331,7 @@ namespace Kros.Data.BulkActions.MsAccess
                 cmd.Transaction = ExternalTransaction;
                 if (useAsync)
                 {
-                    await cmd.ExecuteNonQueryAsync();
+                    await cmd.ExecuteNonQueryAsync(cancellationToken);
                 }
                 else
                 {
